@@ -13,7 +13,8 @@
     "build": "tsc",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "generate": "pnpx @better-auth/cli generate --output ../db/src/auth-schema.ts",
+    "generate": "pnpx @better-auth/cli generate --config ./src/better-auth-config-cli.ts --output ../db/src/schemas/auth.ts",
+    "migrate": "pnpx @better-auth/cli migrate --output ../db/src/schemas/auth-schema.ts",
     "lint": "eslint",
     "typecheck": "tsc --noEmit"
   },

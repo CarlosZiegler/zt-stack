@@ -17,18 +17,19 @@
     "lint:fix": "turbo run lint -- --fix",
     "copy-example-dotenv": "turbo run copy-example-dotenv"
   },
-  "packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af",
   "prettier": "@repo/prettier-config",
   "devDependencies": {
     "@repo/prettier-config": "workspace:*",
     "prettier": "catalog:",
     "turbo": "catalog:"
   },
+  "packageManager": "pnpm@10.4.0",
   "engines": {
     "node": ">=22.10.0",
-    "pnpm": "^10.4.1"
+    "pnpm": "^10.4.0"
   },
   "pnpm": {
+    "neverBuiltDependencies": [],
     "overrides": {
       "esbuild": "^0.25.0",
       "cookie": "^0.7.0"

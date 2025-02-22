@@ -15,4 +15,9 @@ export default {
   dialect: 'postgresql',
   dbCredentials: { url: nonPoolingUrl },
   casing: 'snake_case',
+  out: './src/migrations',
+  migrations: {
+    table: 'drizzle_migrations',
+    schema: 'public',
+  },
 } satisfies Config;

@@ -1,4 +1,10 @@
-import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  text,
+  integer,
+  timestamp,
+  boolean,
+} from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -8,6 +14,13 @@ export const user = pgTable('user', {
   image: text('image'),
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at').notNull(),
+  twoFactorEnabled: boolean('two_factor_enabled'),
+  username: text('username').unique(),
+  isAnonymous: boolean('is_anonymous'),
+  role: text('role'),
+  banned: boolean('banned'),
+  banReason: text('ban_reason'),
+  banExpires: timestamp('ban_expires'),
 });
 
 export const session = pgTable('session', {
@@ -20,7 +33,9 @@ export const session = pgTable('session', {
   userAgent: text('user_agent'),
   userId: text('user_id')
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: 'cascade' }),
+  impersonatedBy: text('impersonated_by'),
+  activeOrganizationId: text('active_organization_id'),
 });
 
 export const account = pgTable('account', {
@@ -29,7 +44,7 @@ export const account = pgTable('account', {
   providerId: text('provider_id').notNull(),
   userId: text('user_id')
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: 'cascade' }),
   accessToken: text('access_token'),
   refreshToken: text('refresh_token'),
   idToken: text('id_token'),
@@ -48,4 +63,63 @@ export const verification = pgTable('verification', {
   expiresAt: timestamp('expires_at').notNull(),
   createdAt: timestamp('created_at'),
   updatedAt: timestamp('updated_at'),
+});
+
+export const twoFactor = pgTable('two_factor', {
+  id: text('id').primaryKey(),
+  secret: text('secret').notNull(),
+  backupCodes: text('backup_codes').notNull(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+});
+
+export const passkey = pgTable('passkey', {
+  id: text('id').primaryKey(),
+  name: text('name'),
+  publicKey: text('public_key').notNull(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  credentialID: text('credential_i_d').notNull(),
+  counter: integer('counter').notNull(),
+  deviceType: text('device_type').notNull(),
+  backedUp: boolean('backed_up').notNull(),
+  transports: text('transports'),
+  createdAt: timestamp('created_at'),
+});
+
+export const organization = pgTable('organization', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  slug: text('slug').unique(),
+  logo: text('logo'),
+  createdAt: timestamp('created_at').notNull(),
+  metadata: text('metadata'),
+});
+
+export const member = pgTable('member', {
+  id: text('id').primaryKey(),
+  organizationId: text('organization_id')
+    .notNull()
+    .references(() => organization.id, { onDelete: 'cascade' }),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  role: text('role').notNull(),
+  createdAt: timestamp('created_at').notNull(),
+});
+
+export const invitation = pgTable('invitation', {
+  id: text('id').primaryKey(),
+  organizationId: text('organization_id')
+    .notNull()
+    .references(() => organization.id, { onDelete: 'cascade' }),
+  email: text('email').notNull(),
+  role: text('role'),
+  status: text('status').notNull(),
+  expiresAt: timestamp('expires_at').notNull(),
+  inviterId: text('inviter_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
 });
