@@ -1,0 +1,37 @@
+{
+  "name": "server",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm with-env tsx watch src/index.ts",
+    "build": "tsup",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "with-env": "dotenv --",
+    "copy-example-dotenv": "shx -- cp -n .env.example .env"
+  },
+  "prettier": "@repo/prettier-config",
+  "dependencies": {
+    "@hono/node-server": "catalog:",
+    "@hono/trpc-server": "catalog:",
+    "@repo/api": "workspace:*",
+    "@repo/auth": "workspace:*",
+    "@repo/db": "workspace:*",
+    "hono": "catalog:",
+    "valibot": "catalog:"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/prettier-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "dotenv-cli": "catalog:",
+    "eslint": "catalog:",
+    "shx": "^0.3.4",
+    "tsup": "^8.3.6",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  }
+}
