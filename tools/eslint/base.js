@@ -19,7 +19,7 @@ export const restrictEnvAccess = tseslint.config(
           object: 'process',
           property: 'env',
           message:
-            'Avoid using process.env directly - validate your types with valibot (example in ./apps/server/env.ts)',
+            'Avoid using process.env directly - validate your types with zod (example in ./apps/server/env.ts)',
         },
       ],
       'no-restricted-imports': [
@@ -28,7 +28,7 @@ export const restrictEnvAccess = tseslint.config(
           name: 'process',
           importNames: ['env'],
           message:
-            'Avoid using process.env directly - validate your types with valibot (example in ./apps/server/env.ts)',
+            'Avoid using process.env directly - validate your types with zod (example in ./apps/server/env.ts)',
         },
       ],
     },

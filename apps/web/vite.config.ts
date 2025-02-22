@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import tailwindcss from '@tailwindcss/vite';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react-swc';
-import * as v from 'valibot';
+import * as z from 'zod';
 import { defineConfig } from 'vite';
 
 /**
@@ -21,13 +21,13 @@ const __dirname = path.dirname(__filename);
  * Since vite is only used during development, we can assume the structure
  * will resemble a URL such as: http://localhost:3035
  */
-const envSchema = v.object({
-  PUBLIC_WEB_URL: v.pipe(
-    v.optional(v.string(), 'http://localhost:3035'),
-    v.url(),
+const envSchema = z.object({
+  PUBLIC_WEB_URL: z.preprocess(
+    (val) => (val === undefined ? 'http://localhost:3035' : val),
+    z.string().url(),
   ),
 });
-const env = v.parse(envSchema, process.env);
+const env = envSchema.parse(process.env);
 const webUrl = new URL(env.PUBLIC_WEB_URL);
 const WEB_HOST = webUrl.hostname;
 const WEB_PORT = parseInt(webUrl.port, 10);

@@ -1,12 +1,15 @@
 import { linkOptions } from '@tanstack/react-router';
-import * as v from 'valibot';
+import * as z from 'zod';
 
-export const postsSearchSchema = v.object({
-  searchString: v.fallback(v.string(), ''),
-  sortDirection: v.fallback(v.picklist(['asc', 'desc']), 'asc'),
+export const postsSearchSchema = z.object({
+  searchString: z.string().default(''),
+  sortDirection: z.enum(['asc', 'desc']).default('asc'),
 });
 
-export const postsSearchDefaults = v.getFallbacks(postsSearchSchema);
+export const postsSearchDefaults: z.infer<typeof postsSearchSchema> = {
+  searchString: '',
+  sortDirection: 'asc',
+};
 
 export const postsLinkOptions = linkOptions({
   to: '/posts',

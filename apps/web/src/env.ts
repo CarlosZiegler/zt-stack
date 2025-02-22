@@ -1,9 +1,9 @@
-import * as v from 'valibot';
+import * as z from 'zod';
 
 export const CLIENT_ENV_PREFIX = 'PUBLIC_' as const;
 
-export const envSchema = v.object({
-  PUBLIC_API_URL: v.pipe(v.string(), v.url()),
+export const envSchema = z.object({
+  PUBLIC_API_URL: z.string().url(),
 });
 
-export const env = v.parse(envSchema, import.meta.env);
+export const env = envSchema.parse(import.meta.env);

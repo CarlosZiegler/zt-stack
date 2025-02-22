@@ -17,19 +17,13 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { TRPCClientError } from '@trpc/client';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import * as v from 'valibot';
+import * as z from 'zod';
 import { trpc } from '@/router';
 import FormFieldInfo from '@/routes/-components/common/form-field-info';
 
-const FormSchema = v.object({
-  title: v.pipe(
-    v.string(),
-    v.minLength(3, 'Please enter at least 3 characters'),
-  ),
-  content: v.pipe(
-    v.string(),
-    v.minLength(5, 'Please enter at least 5 characters'),
-  ),
+const FormSchema = z.object({
+  title: z.string().min(3, 'Please enter at least 3 characters'),
+  content: z.string().min(5, 'Please enter at least 5 characters'),
 });
 
 const generateTimestamp = () => +new Date();

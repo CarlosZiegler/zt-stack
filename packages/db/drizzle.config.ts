@@ -1,11 +1,11 @@
-import * as v from 'valibot';
+import * as z from 'zod';
 import type { Config } from 'drizzle-kit';
 
-const envSchema = v.object({
-  DB_POSTGRES_URL: v.pipe(v.string(), v.minLength(1)),
+const envSchema = z.object({
+  DB_POSTGRES_URL: z.string().min(1),
 });
 
-const env = v.parse(envSchema, process.env);
+const env = envSchema.parse(process.env);
 
 // Supabase pooling URL uses 6543, which we don't need for migrations
 const nonPoolingUrl = env.DB_POSTGRES_URL.replace(':6543', ':5432');

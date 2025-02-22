@@ -33,7 +33,7 @@
     "react-dom": "catalog:",
     "sonner": "catalog:",
     "tailwindcss": "catalog:",
-    "valibot": "catalog:"
+    "zod": "catalog:"
   },
   "prettier": "@repo/prettier-config",
   "devDependencies": {

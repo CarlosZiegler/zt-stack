@@ -24,7 +24,7 @@
     "@trpc/server": "catalog:",
     "superjson": "catalog:",
     "url-join": "catalog:",
-    "valibot": "catalog:"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

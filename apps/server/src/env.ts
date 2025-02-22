@@ -1,28 +1,25 @@
-import * as v from 'valibot';
+import * as z from 'zod';
 
 const DEFAULT_SERVER_PORT = 3035;
 const DEFAULT_SERVER_HOST = 'localhost';
 
 const createPortSchema = ({ defaultPort }: { defaultPort: number }) =>
-  v.pipe(
-    v.optional(v.string(), `${defaultPort}`),
-    v.transform((s) => parseInt(s, 10)),
-    v.number(),
-    v.minValue(0),
-    v.maxValue(65535),
+  z.preprocess(
+    (val) => (val === undefined ? `${defaultPort}` : val),
+    z
+      .string()
+      .transform((s) => parseInt(s, 10))
+      .pipe(z.number().min(0).max(65535)),
   );
 
-export const envSchema = v.object({
+export const envSchema = z.object({
   SERVER_PORT: createPortSchema({ defaultPort: DEFAULT_SERVER_PORT }),
-  SERVER_HOST: v.pipe(
-    v.optional(v.string(), DEFAULT_SERVER_HOST),
-    v.minLength(1),
-  ),
-  SERVER_AUTH_SECRET: v.pipe(v.string(), v.minLength(1)),
-  SERVER_POSTGRES_URL: v.string(),
+  SERVER_HOST: z.string().min(1).default(DEFAULT_SERVER_HOST),
+  SERVER_AUTH_SECRET: z.string().min(1),
+  SERVER_POSTGRES_URL: z.string(),
 
   // Frontend URL, used to configure trusted origin (CORS)
-  PUBLIC_WEB_URL: v.pipe(v.string(), v.url()),
+  PUBLIC_WEB_URL: z.string().url(),
 });
 
-export const env = v.parse(envSchema, process.env);
+export const env = envSchema.parse(process.env);

@@ -6,32 +6,21 @@ import { useForm } from '@tanstack/react-form';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import * as v from 'valibot';
+import * as z from 'zod';
 import { authClient } from '@/clients/authClient';
 import FormFieldInfo from '@/routes/-components/common/form-field-info';
 
-const FormSchema = v.pipe(
-  v.object({
-    name: v.pipe(
-      v.string(),
-      v.minLength(2, 'Name must be at least 2 characters'),
-    ),
-    email: v.pipe(v.string(), v.email('Please enter a valid email address')),
-    password: v.pipe(
-      v.string(),
-      v.minLength(8, 'Password must be at least 8 characters'),
-    ),
-    confirmPassword: v.string(),
-  }),
-  v.forward(
-    v.partialCheck(
-      [['password'], ['confirmPassword']],
-      (input) => input.password === input.confirmPassword,
-      'The two passwords do not match.',
-    ),
-    ['confirmPassword'],
-  ),
-);
+const FormSchema = z
+  .object({
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    email: z.string().email('Please enter a valid email address'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'The two passwords do not match.',
+    path: ['confirmPassword'], // Shows error on confirmPassword field
+  });
 
 export default function RegisterCredentialsForm() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

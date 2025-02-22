@@ -99,9 +99,9 @@ catalogs:
     drizzle-orm:
       specifier: ^0.39.3
       version: 0.39.3
-    drizzle-valibot:
-      specifier: ^0.4.0
-      version: 0.4.0
+    drizzle-zod:
+      specifier: ^0.7.0
+      version: 0.7.0
     eslint:
       specifier: ^9.21.0
       version: 9.21.0
@@ -177,12 +177,12 @@ catalogs:
     url-join:
       specifier: ^5.0.0
       version: 5.0.0
-    valibot:
-      specifier: 1.0.0-rc.1
-      version: 1.0.0-rc.1
     vite:
       specifier: ^6.1.1
       version: 6.1.1
+    zod:
+      specifier: ^3.24.2
+      version: 3.24.2
 
 overrides:
   esbuild: ^0.25.0
@@ -222,9 +222,9 @@ importers:
       hono:
         specifier: 'catalog:'
         version: 4.7.2
-      valibot:
+      zod:
         specifier: 'catalog:'
-        version: 1.0.0-rc.1(typescript@5.7.3)
+        version: 3.24.2
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -307,9 +307,9 @@ importers:
       tailwindcss:
         specifier: 'catalog:'
         version: 4.0.8
-      valibot:
+      zod:
         specifier: 'catalog:'
-        version: 1.0.0-rc.1(typescript@5.7.3)
+        version: 3.24.2
     devDependencies:
       '@repo/api':
         specifier: workspace:*
@@ -377,9 +377,9 @@ importers:
       url-join:
         specifier: 'catalog:'
         version: 5.0.0
-      valibot:
+      zod:
         specifier: 'catalog:'
-        version: 1.0.0-rc.1(typescript@5.7.3)
+        version: 3.24.2
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -439,15 +439,15 @@ importers:
       drizzle-orm:
         specifier: 'catalog:'
         version: 0.39.3(@types/pg@8.11.11)(kysely@0.27.5)(pg@8.13.3)
-      drizzle-valibot:
+      drizzle-zod:
         specifier: 'catalog:'
-        version: 0.4.0(drizzle-orm@0.39.3(@types/pg@8.11.11)(kysely@0.27.5)(pg@8.13.3))(valibot@1.0.0-rc.1(typescript@5.7.3))
+        version: 0.7.0(drizzle-orm@0.39.3(@types/pg@8.11.11)(kysely@0.27.5)(pg@8.13.3))(zod@3.24.2)
       pg:
         specifier: 'catalog:'
         version: 8.13.3
-      valibot:
+      zod:
         specifier: 'catalog:'
-        version: 1.0.0-rc.1(typescript@5.7.3)
+        version: 3.24.2
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -2603,11 +2603,11 @@ packages:
       sqlite3:
         optional: true
 
-  drizzle-valibot@0.4.0:
-    resolution: {integrity: sha512-0K90Ko1l5uRFNMN/3RwVQy+6biEHiXA/thxq+ZsEDuHqevpiY1Yy8qQEzx9eshv3HEtFlaulAoV0POZJ0bcdJg==}
+  drizzle-zod@0.7.0:
+    resolution: {integrity: sha512-xgCRYYVEzRkeXTS33GSMgoowe3vKsMNBjSI+cwG1oLQVEhAWWbqtb/AAMlm7tkmV4fG/uJjEmWzdzlEmTgWOoQ==}
     peerDependencies:
       drizzle-orm: '>=0.36.0'
-      valibot: '>=1.0.0-beta.7'
+      zod: '>=3.0.0'
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -4056,14 +4056,6 @@ packages:
 
   util@0.12.5:
     resolution: {integrity: sha512-kZf/K6hEIrWHI6XqOFUiiMa+79wE/D8Q+NCNAWclkyg3b4d2k7s0QGepNjiABc+aR3N1PAyHL7p6UcLY6LmrnA==}
-
-  valibot@1.0.0-rc.1:
-    resolution: {integrity: sha512-bTHNpeeQ403xS7qGHF/tw3EC/zkZOU5VdkfIsmRDu1Sp+BJNTNCm6m5HlwOgyW/03lofP+uQiq3R+Poo9wiCEg==}
-    peerDependencies:
-      typescript: '>=5'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   vite@6.1.1:
     resolution: {integrity: sha512-4GgM54XrwRfrOp297aIYspIti66k56v16ZnqHvrIM7mG+HjDlAwS7p+Srr7J6fGvEdOJ5JcQ/D9T7HhtdXDTzA==}
@@ -6100,10 +6092,10 @@ snapshots:
       kysely: 0.27.5
       pg: 8.13.3
 
-  drizzle-valibot@0.4.0(drizzle-orm@0.39.3(@types/pg@8.11.11)(kysely@0.27.5)(pg@8.13.3))(valibot@1.0.0-rc.1(typescript@5.7.3)):
+  drizzle-zod@0.7.0(drizzle-orm@0.39.3(@types/pg@8.11.11)(kysely@0.27.5)(pg@8.13.3))(zod@3.24.2):
     dependencies:
       drizzle-orm: 0.39.3(@types/pg@8.11.11)(kysely@0.27.5)(pg@8.13.3)
-      valibot: 1.0.0-rc.1(typescript@5.7.3)
+      zod: 3.24.2
 
   dunder-proto@1.0.1:
     dependencies:
@@ -7732,10 +7724,6 @@ snapshots:
       is-generator-function: 1.1.0
       is-typed-array: 1.1.15
       which-typed-array: 1.1.18
-
-  valibot@1.0.0-rc.1(typescript@5.7.3):
-    optionalDependencies:
-      typescript: 5.7.3
 
   vite@6.1.1(@types/node@22.13.5)(jiti@2.4.2)(lightningcss@1.29.1)(tsx@4.19.3):
     dependencies:

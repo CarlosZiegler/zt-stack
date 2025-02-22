@@ -2,7 +2,7 @@ import { desc, eq } from '@repo/db';
 import { CreatePostSchema, post, user } from '@repo/db/schema';
 
 import { TRPCError } from '@trpc/server';
-import * as v from 'valibot';
+import * as z from 'zod';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 const postRouter = router({
@@ -18,7 +18,7 @@ const postRouter = router({
   }),
 
   one: publicProcedure
-    .input(v.object({ id: v.pipe(v.string(), v.uuid()) }))
+    .input(z.object({ id: z.string().uuid() }))
     .query(async ({ ctx, input }) => {
       const [dbPost] = await ctx.db
         .select({
@@ -55,7 +55,7 @@ const postRouter = router({
     }),
 
   delete: protectedProcedure
-    .input(v.object({ id: v.pipe(v.string(), v.uuid()) }))
+    .input(z.object({ id: z.string().uuid() }))
     .mutation(async ({ ctx, input }) => {
       const res = await ctx.db.delete(post).where(eq(post.id, input.id));
       if (res.rowCount === 0) {
