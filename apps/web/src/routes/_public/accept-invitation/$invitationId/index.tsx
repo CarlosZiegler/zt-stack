@@ -9,12 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@repo/ui/components/card';
+import { createFileRoute, useParams, useRouter } from '@tanstack/react-router';
 import { CheckIcon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { createFileRoute, useParams, useRouter } from '@tanstack/react-router';
 import { Skeleton } from '@repo/ui/components/skeleton';
+import { InvitationError } from '../../-components/invitation-error';
 import { authClient } from '@/clients/authClient';
-import { InvitationError } from './invitation-error';
 
 export const Route = createFileRoute(
   '/_public/accept-invitation/$invitationId/',

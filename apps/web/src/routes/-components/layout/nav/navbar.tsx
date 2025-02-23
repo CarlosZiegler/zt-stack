@@ -18,28 +18,34 @@ export function Navbar() {
         >
           Home
         </Link>
-        <Link
-          to="/admin"
-          activeProps={{ className: activeClassName }}
-          activeOptions={{ exact: true }}
-        >
-          Admin
-        </Link>
-        <Link
-          to="/settings"
-          activeProps={{ className: activeClassName }}
-          activeOptions={{ exact: true }}
-        >
-          Settings
-        </Link>
-        {session?.user ? (
-          <Link
-            {...postsLinkOptions}
-            activeProps={{ className: activeClassName }}
-          >
-            Posts
-          </Link>
-        ) : null}
+
+        {session?.user
+          ? [
+              <Link
+                key="posts"
+                {...postsLinkOptions}
+                activeProps={{ className: activeClassName }}
+              >
+                Posts
+              </Link>,
+              <Link
+                key="admin"
+                to="/admin"
+                activeProps={{ className: activeClassName }}
+                activeOptions={{ exact: true }}
+              >
+                Admin
+              </Link>,
+              <Link
+                key="settings"
+                to="/settings"
+                activeProps={{ className: activeClassName }}
+                activeOptions={{ exact: true }}
+              >
+                Settings
+              </Link>,
+            ]
+          : null}
       </div>
       {isPending ? null : session?.user ? (
         <UserAvatar user={session.user} />

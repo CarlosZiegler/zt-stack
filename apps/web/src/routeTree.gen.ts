@@ -26,7 +26,6 @@ import { Route as ProtectedAdminIndexImport } from './routes/_protected/admin/in
 import { Route as PublicTwoFactorOtpImport } from './routes/_public/two-factor/otp'
 import { Route as PublicAcceptInvitationInvitationIdIndexImport } from './routes/_public/accept-invitation/$invitationId/index'
 import { Route as ProtectedPostsPostidIndexImport } from './routes/_protected/posts/$postid/index'
-import { Route as PublicAcceptInvitationInvitationIdInvitationErrorImport } from './routes/_public/accept-invitation/$invitationId/invitation-error'
 
 // Create Virtual Routes
 
@@ -125,13 +124,6 @@ const ProtectedPostsPostidIndexRoute = ProtectedPostsPostidIndexImport.update({
   import('./routes/_protected/posts/$postid/index.lazy').then((d) => d.Route),
 )
 
-const PublicAcceptInvitationInvitationIdInvitationErrorRoute =
-  PublicAcceptInvitationInvitationIdInvitationErrorImport.update({
-    id: '/accept-invitation/$invitationId/invitation-error',
-    path: '/accept-invitation/$invitationId/invitation-error',
-    getParentRoute: () => PublicLayoutRoute,
-  } as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -220,13 +212,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicTwoFactorIndexImport
       parentRoute: typeof PublicLayoutImport
     }
-    '/_public/accept-invitation/$invitationId/invitation-error': {
-      id: '/_public/accept-invitation/$invitationId/invitation-error'
-      path: '/accept-invitation/$invitationId/invitation-error'
-      fullPath: '/accept-invitation/$invitationId/invitation-error'
-      preLoaderRoute: typeof PublicAcceptInvitationInvitationIdInvitationErrorImport
-      parentRoute: typeof PublicLayoutImport
-    }
     '/_protected/posts/$postid/': {
       id: '/_protected/posts/$postid/'
       path: '/posts/$postid'
@@ -271,7 +256,6 @@ interface PublicLayoutRouteChildren {
   PublicResetPasswordRoute: typeof PublicResetPasswordRoute
   PublicTwoFactorOtpRoute: typeof PublicTwoFactorOtpRoute
   PublicTwoFactorIndexRoute: typeof PublicTwoFactorIndexRoute
-  PublicAcceptInvitationInvitationIdInvitationErrorRoute: typeof PublicAcceptInvitationInvitationIdInvitationErrorRoute
   PublicAcceptInvitationInvitationIdIndexRoute: typeof PublicAcceptInvitationInvitationIdIndexRoute
 }
 
@@ -282,8 +266,6 @@ const PublicLayoutRouteChildren: PublicLayoutRouteChildren = {
   PublicResetPasswordRoute: PublicResetPasswordRoute,
   PublicTwoFactorOtpRoute: PublicTwoFactorOtpRoute,
   PublicTwoFactorIndexRoute: PublicTwoFactorIndexRoute,
-  PublicAcceptInvitationInvitationIdInvitationErrorRoute:
-    PublicAcceptInvitationInvitationIdInvitationErrorRoute,
   PublicAcceptInvitationInvitationIdIndexRoute:
     PublicAcceptInvitationInvitationIdIndexRoute,
 }
@@ -304,7 +286,6 @@ export interface FileRoutesByFullPath {
   '/posts': typeof ProtectedPostsIndexRoute
   '/settings': typeof ProtectedSettingsIndexRoute
   '/two-factor': typeof PublicTwoFactorIndexRoute
-  '/accept-invitation/$invitationId/invitation-error': typeof PublicAcceptInvitationInvitationIdInvitationErrorRoute
   '/posts/$postid': typeof ProtectedPostsPostidIndexRoute
   '/accept-invitation/$invitationId': typeof PublicAcceptInvitationInvitationIdIndexRoute
 }
@@ -321,7 +302,6 @@ export interface FileRoutesByTo {
   '/posts': typeof ProtectedPostsIndexRoute
   '/settings': typeof ProtectedSettingsIndexRoute
   '/two-factor': typeof PublicTwoFactorIndexRoute
-  '/accept-invitation/$invitationId/invitation-error': typeof PublicAcceptInvitationInvitationIdInvitationErrorRoute
   '/posts/$postid': typeof ProtectedPostsPostidIndexRoute
   '/accept-invitation/$invitationId': typeof PublicAcceptInvitationInvitationIdIndexRoute
 }
@@ -340,7 +320,6 @@ export interface FileRoutesById {
   '/_protected/posts/': typeof ProtectedPostsIndexRoute
   '/_protected/settings/': typeof ProtectedSettingsIndexRoute
   '/_public/two-factor/': typeof PublicTwoFactorIndexRoute
-  '/_public/accept-invitation/$invitationId/invitation-error': typeof PublicAcceptInvitationInvitationIdInvitationErrorRoute
   '/_protected/posts/$postid/': typeof ProtectedPostsPostidIndexRoute
   '/_public/accept-invitation/$invitationId/': typeof PublicAcceptInvitationInvitationIdIndexRoute
 }
@@ -359,7 +338,6 @@ export interface FileRouteTypes {
     | '/posts'
     | '/settings'
     | '/two-factor'
-    | '/accept-invitation/$invitationId/invitation-error'
     | '/posts/$postid'
     | '/accept-invitation/$invitationId'
   fileRoutesByTo: FileRoutesByTo
@@ -375,7 +353,6 @@ export interface FileRouteTypes {
     | '/posts'
     | '/settings'
     | '/two-factor'
-    | '/accept-invitation/$invitationId/invitation-error'
     | '/posts/$postid'
     | '/accept-invitation/$invitationId'
   id:
@@ -392,7 +369,6 @@ export interface FileRouteTypes {
     | '/_protected/posts/'
     | '/_protected/settings/'
     | '/_public/two-factor/'
-    | '/_public/accept-invitation/$invitationId/invitation-error'
     | '/_protected/posts/$postid/'
     | '/_public/accept-invitation/$invitationId/'
   fileRoutesById: FileRoutesById
@@ -446,7 +422,6 @@ export const routeTree = rootRoute
         "/_public/reset-password",
         "/_public/two-factor/otp",
         "/_public/two-factor/",
-        "/_public/accept-invitation/$invitationId/invitation-error",
         "/_public/accept-invitation/$invitationId/"
       ]
     },
@@ -484,10 +459,6 @@ export const routeTree = rootRoute
     },
     "/_public/two-factor/": {
       "filePath": "_public/two-factor/index.tsx",
-      "parent": "/_public"
-    },
-    "/_public/accept-invitation/$invitationId/invitation-error": {
-      "filePath": "_public/accept-invitation/$invitationId/invitation-error.tsx",
       "parent": "/_public"
     },
     "/_protected/posts/$postid/": {

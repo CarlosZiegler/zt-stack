@@ -7,17 +7,15 @@ export const Route = createFileRoute('/_public/forgot-password')({
 
 function RouteComponent() {
   return (
-    <div className="p-2 md:p-6 flex flex-col items-center">
-      <div className="border p-4 md:p-8 w-full max-w-md rounded-lg bg-elevated">
-        <ForgotPasswordForm />
+    <div className="p-2 md:p-6 flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
+      <ForgotPasswordForm />
 
-        <div className="mt-4 text-center">
-          {"Don't have an account? "}
-          <Link to="/login" className="underline">
-            Login
-          </Link>
-          !
-        </div>
+      <div className="mt-4 text-center">
+        {"Don't have an account? "}
+        <Link to="/login" className="underline">
+          Login
+        </Link>
+        !
       </div>
     </div>
   );

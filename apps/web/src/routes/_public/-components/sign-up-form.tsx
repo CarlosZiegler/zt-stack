@@ -43,7 +43,7 @@ export function SignUpForm() {
   };
 
   return (
-    <Card className="z-50 rounded-md rounded-t-none max-w-md">
+    <Card className="z-50 rounded-2xl max-w-md">
       <CardHeader>
         <CardTitle className="text-lg md:text-xl">Sign Up</CardTitle>
         <CardDescription className="text-xs md:text-sm">

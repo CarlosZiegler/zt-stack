@@ -70,10 +70,6 @@ app.use(
   }),
 );
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!');
-});
-
 app.get('/healthcheck', (c) => {
   return c.text('OK');
 });
