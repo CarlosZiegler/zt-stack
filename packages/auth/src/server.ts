@@ -1,15 +1,22 @@
+import { emailClient } from '@repo/email/lib/client';
+import { reactInvitationEmail } from '@repo/email/templates/invitation';
+import { reactResetPasswordEmail } from '@repo/email/templates/reset-password';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import type { DatabaseInstance } from '@repo/db/client';
 import {
   admin,
   anonymous,
+  bearer,
   emailOTP,
+  multiSession,
+  oneTap,
+  openAPI,
   organization,
   twoFactor,
   username,
 } from 'better-auth/plugins';
 import { passkey } from 'better-auth/plugins/passkey';
+import type { DatabaseInstance } from '@repo/db/client';
 
 export interface AuthOptions {
   webUrl: string;
@@ -18,6 +25,9 @@ export interface AuthOptions {
 }
 
 export type AuthInstance = ReturnType<typeof betterAuth>;
+
+const from = process.env.BETTER_AUTH_EMAIL || 'delivered@resend.dev';
+const to = process.env.TEST_EMAIL || '';
 
 export const createAuth = ({
   webUrl,
@@ -38,23 +48,86 @@ export const createAuth = ({
     database: drizzleAdapter(db, {
       provider: 'pg',
     }),
+    account: {
+      accountLinking: {
+        trustedProviders: ['google', 'github', 'demo-app'],
+      },
+    },
+    emailVerification: {
+      async sendVerificationEmail({ user, url }) {
+        const res = await emailClient.emails.send({
+          from,
+          to: to || user.email,
+          subject: 'Verify your email address',
+          html: `<a href="${url}">Verify your email address</a>`,
+        });
+        console.log(res, user.email);
+      },
+    },
     emailAndPassword: {
       enabled: true,
       autoSignIn: true,
       requireEmailVerification: false,
+      async sendResetPassword({ user, url }) {
+        await emailClient.emails.send({
+          from,
+          to: user.email,
+          subject: 'Reset your password',
+          react: reactResetPasswordEmail({
+            username: user.email,
+            resetLink: url,
+          }),
+        });
+      },
     },
     plugins: [
-      twoFactor(),
+      twoFactor({
+        otpOptions: {
+          async sendOTP({ user, otp }) {
+            await emailClient.emails.send({
+              from,
+              to: user.email,
+              subject: 'Your OTP',
+              html: `Your OTP is ${otp}`,
+            });
+          },
+        },
+      }),
       username(),
       anonymous(),
       passkey(),
       admin(),
-      organization(),
+      organization({
+        async sendInvitationEmail(data) {
+          await emailClient.emails.send({
+            from,
+            to: data.email,
+            subject: "You've been invited to join an organization",
+            react: reactInvitationEmail({
+              username: data.email,
+              invitedByUsername: data.inviter.user.name,
+              invitedByEmail: data.inviter.user.email,
+              teamName: data.organization.name,
+              inviteLink:
+                process.env.NODE_ENV === 'development'
+                  ? `http://localhost:3000/accept-invitation/${data.id}`
+                  : `${
+                      process.env.BETTER_AUTH_URL ||
+                      'https://demo.better-auth.com'
+                    }/accept-invitation/${data.id}`,
+            }),
+          });
+        },
+      }),
       emailOTP({
         async sendVerificationOTP({ email, otp, type }) {
           // Implement the sendVerificationOTP method to send the OTP to the user's email address
         },
       }),
+      openAPI(),
+      bearer(),
+      multiSession(),
+      oneTap(),
     ],
   });
 };

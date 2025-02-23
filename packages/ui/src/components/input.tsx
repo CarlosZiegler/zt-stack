@@ -19,4 +19,6 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
 );
 Input.displayName = 'Input';
 
-export { Input };
+type InputProps = React.ComponentProps<'input'>;
+
+export { Input, type InputProps };

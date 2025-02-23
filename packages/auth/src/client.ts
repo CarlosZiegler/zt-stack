@@ -6,18 +6,14 @@ import {
   usernameClient,
   twoFactorClient,
   emailOTPClient,
+  multiSessionClient,
 } from 'better-auth/client/plugins';
 import { createAuthClient as createBetterAuthClient } from 'better-auth/react';
-
 export interface AuthClientOptions {
   apiBaseUrl: string;
 }
 
-export type AuthClient = ReturnType<typeof createBetterAuthClient>;
-
-export const createAuthClient = ({
-  apiBaseUrl,
-}: AuthClientOptions): AuthClient =>
+export const createAuthClient = ({ apiBaseUrl }: AuthClientOptions) =>
   createBetterAuthClient({
     baseURL: apiBaseUrl,
     plugins: [
@@ -28,5 +24,8 @@ export const createAuthClient = ({
       passkeyClient(),
       adminClient(),
       organizationClient(),
+      multiSessionClient(),
     ],
   });
+
+export type AuthClient = ReturnType<typeof createAuthClient>;

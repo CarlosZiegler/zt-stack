@@ -97,6 +97,9 @@ pnpm copy-example-env
 # Start a local postgres instance in the background (e.g. using docker)
 docker compose up db --detach
 
+# Generate drizzle schema to your database
+pnpm db:generate
+
 # Push drizzle schema to your database
 pnpm db:push
 ```

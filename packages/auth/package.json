@@ -6,7 +6,8 @@
   "type": "module",
   "exports": {
     "./client": "./src/client.ts",
-    "./server": "./src/server.ts"
+    "./server": "./src/server.ts",
+    "./auth-types": "./src/auth-types.ts"
   },
   "scripts": {
     "dev": "tsc",
@@ -14,7 +15,7 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "generate": "pnpx @better-auth/cli generate --config ./src/better-auth-config-cli.ts --output ../db/src/schemas/auth.ts",
-    "migrate": "pnpx @better-auth/cli migrate --output ../db/src/schemas/auth-schema.ts",
+    "migrate": "pnpx @better-auth/cli migrate --config ./src/better-auth-config-cli.ts",
     "lint": "eslint",
     "typecheck": "tsc --noEmit"
   },
@@ -22,6 +23,7 @@
   "dependencies": {
     "@auth/drizzle-adapter": "catalog:",
     "@repo/db": "workspace:*",
+    "@repo/email": "workspace:*",
     "better-auth": "catalog:"
   },
   "devDependencies": {

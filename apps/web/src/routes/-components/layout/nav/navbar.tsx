@@ -18,6 +18,20 @@ export function Navbar() {
         >
           Home
         </Link>
+        <Link
+          to="/admin"
+          activeProps={{ className: activeClassName }}
+          activeOptions={{ exact: true }}
+        >
+          Admin
+        </Link>
+        <Link
+          to="/settings"
+          activeProps={{ className: activeClassName }}
+          activeOptions={{ exact: true }}
+        >
+          Settings
+        </Link>
         {session?.user ? (
           <Link
             {...postsLinkOptions}
