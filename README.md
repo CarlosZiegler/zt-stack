@@ -29,6 +29,8 @@ packages
   |   └─ better auth
   ├─ db
   |   └─ drizzle orm (postgresql database)
+  ├─ email
+  |   └─ resend client to send email
   ├─ ui
   |   ├─ tailwindcss
   |   └─ shadcn & radix ui
