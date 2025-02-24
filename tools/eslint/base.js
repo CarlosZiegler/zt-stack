@@ -36,6 +36,7 @@ export const restrictEnvAccess = tseslint.config(
 );
 
 export default tseslint.config([
+  { ignores: ['dist/**'] },
   ...turboConfig,
   js.configs.recommended,
   eslintConfigPrettier,

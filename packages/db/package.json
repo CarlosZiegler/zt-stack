@@ -18,16 +18,16 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "tsc",
+    "dev": "tsc --build",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
     "generate": "pnpm with-env drizzle-kit generate",
     "migrate": "pnpm with-env drizzle-kit migrate",
     "push": "pnpm with-env drizzle-kit push --force",
     "studio": "pnpm with-env drizzle-kit studio",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+    "typecheck": "tsc --build --noEmit --emitDeclarationOnly false",
     "with-env": "dotenv --",
     "copy-example-dotenv": "shx -- cp -n .env.example .env"
   },
@@ -47,7 +47,7 @@
     "dotenv-cli": "catalog:",
     "drizzle-kit": "catalog:",
     "eslint": "catalog:",
-    "shx": "^0.3.4",
+    "shx": "catalog:",
     "typescript": "catalog:"
   }
 }

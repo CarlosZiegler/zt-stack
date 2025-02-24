@@ -51,13 +51,6 @@ app.use(
   }),
 );
 
-app.use(wildcardPath.ALL, async (c, next) => {
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
-  c.set('user', session?.user ?? null);
-  c.set('session', session?.session ?? null);
-  return next();
-});
-
 app.on(['POST', 'GET'], wildcardPath.BETTER_AUTH, (c) =>
   auth.handler(c.req.raw),
 );

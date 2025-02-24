@@ -29,8 +29,8 @@
     "@types/node": "catalog:",
     "dotenv-cli": "catalog:",
     "eslint": "catalog:",
-    "shx": "^0.3.4",
-    "tsup": "^8.3.6",
+    "shx": "catalog:",
+    "tsup": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:"
   }

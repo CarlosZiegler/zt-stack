@@ -23,8 +23,8 @@
     "clean": "turbo run clean",
     "postclean": "git clean -xdf .cache .turbo node_modules",
     "ui-add": "turbo run ui-add -F @repo/ui --",
-    "lint": "turbo run lint",
-    "lint:fix": "turbo run lint -- --fix",
+    "lint": "turbo run lint --continue -- --cache --cache-location .cache/.eslintcache",
+    "lint:fix": "turbo run lint --continue -- --fix --cache --cache-location .cache/.eslintcache",
     "copy-example-dotenv": "turbo run copy-example-dotenv"
   },
   "prettier": "@repo/prettier-config",

@@ -54,7 +54,7 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react-swc": "catalog:",
     "eslint": "catalog:",
-    "shx": "^0.3.4",
+    "shx": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:"
   }
