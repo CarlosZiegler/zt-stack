@@ -901,6 +901,20 @@ function LanguageSwitch() {
           {t('GERMAN')}
           {i18n.language === 'de' && <Check size={16} />}
         </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => i18n.changeLanguage('pt')}
+          className="flex justify-between"
+        >
+          {t('PORTUGUESE')}
+          {i18n.language === 'pt' && <Check size={16} />}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => i18n.changeLanguage('es')}
+          className="flex justify-between"
+        >
+          {t('SPANISH')}
+          {i18n.language === 'es' && <Check size={16} />}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

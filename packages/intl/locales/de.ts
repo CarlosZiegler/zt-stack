@@ -210,4 +210,6 @@ export default {
   LANGUAGE: 'Sprache',
   ENGLISH: 'Englisch',
   GERMAN: 'Deutsch',
+  PORTUGUESE: 'Portugiesisch',
+  SPANISH: 'Spanisch',
 } as const;
