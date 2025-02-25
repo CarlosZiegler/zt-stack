@@ -16,8 +16,10 @@ import { AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { authClient } from '@/clients/authClient';
+import { useTranslation } from '@repo/intl/react';
 
 export default function ResetPasswordForm() {
+  const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,32 +43,30 @@ export default function ResetPasswordForm() {
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Reset password</CardTitle>
-          <CardDescription>
-            Enter new password and confirm it to reset your password
-          </CardDescription>
+          <CardTitle>{t('RESET_PASSWORD')}</CardTitle>
+          <CardDescription>{t('RESET_PASSWORD_DESC')}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-2">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="email">New password</Label>
+                <Label htmlFor="email">{t('NEW_PASSWORD')}</Label>
                 <PasswordInput
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="password"
-                  placeholder="Password"
+                  placeholder={t('PASSWORD')}
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="email">Confirm password</Label>
+                <Label htmlFor="email">{t('CONFIRM_NEW_PASSWORD')}</Label>
                 <PasswordInput
                   id="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   autoComplete="password"
-                  placeholder="Password"
+                  placeholder={t('PASSWORD')}
                 />
               </div>
             </div>
@@ -81,7 +81,7 @@ export default function ResetPasswordForm() {
               type="submit"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Resetting...' : 'Reset password'}
+              {isSubmitting ? t('RESETTING') : t('RESET_PASSWORD_BUTTON')}
             </Button>
           </form>
         </CardContent>

@@ -47,6 +47,7 @@ import { toast } from 'sonner';
 
 import type { AuthClient } from '@repo/auth/client';
 import { authClient } from '@/clients/authClient';
+import { useTranslation } from '@repo/intl/react';
 
 type ActiveOrganization = ReturnType<
   typeof authClient.organization.getFullOrganization
@@ -56,6 +57,7 @@ export function OrganizationCard(props: {
   session: AuthClient['$Infer']['Session'] | null;
   activeOrganization: ActiveOrganization | null;
 }) {
+  const { t } = useTranslation();
   const { data: organizations } = authClient.useListOrganizations();
 
   const optimisticOrg = props.activeOrganization;
@@ -76,14 +78,14 @@ export function OrganizationCard(props: {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Organization</CardTitle>
+        <CardTitle>{t('ORGANIZATION')}</CardTitle>
         <div className="flex justify-between">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center gap-1 cursor-pointer">
                 <p className="text-sm">
                   <span className="font-bold"></span>{' '}
-                  {optimisticOrg?.name || 'Personal'}
+                  {optimisticOrg?.name || t('PERSONAL')}
                 </p>
 
                 <ChevronDownIcon />
@@ -98,7 +100,7 @@ export function OrganizationCard(props: {
                   });
                 }}
               >
-                <p className="text-sm sm">Personal</p>
+                <p className="text-sm sm">{t('PERSONAL')}</p>
               </DropdownMenuItem>
               {organizations?.map((org) => (
                 <DropdownMenuItem
@@ -134,9 +136,9 @@ export function OrganizationCard(props: {
             </AvatarFallback>
           </Avatar>
           <div>
-            <p>{optimisticOrg?.name || 'Personal'}</p>
+            <p>{optimisticOrg?.name || t('PERSONAL')}</p>
             <p className="text-xs text-muted-foreground">
-              {optimisticOrg?.members.length || 1} members
+              {optimisticOrg?.members.length || 1} {t('MEMBERS')}
             </p>
           </div>
         </div>
@@ -145,7 +147,7 @@ export function OrganizationCard(props: {
         <div className="flex gap-8 flex-col md:flex-row">
           <div className="flex flex-col gap-2 flex-grow">
             <p className="font-medium border-b-2 border-b-foreground/10">
-              Members
+              {t('MEMBERS')}
             </p>
             <div className="flex flex-col gap-2">
               {optimisticOrg?.members.map((member: any) => (
@@ -166,7 +168,11 @@ export function OrganizationCard(props: {
                     <div>
                       <p className="text-sm">{member.user.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        {member.role}
+                        {member.role === 'owner'
+                          ? t('OWNER')
+                          : member.role === 'member'
+                            ? t('MEMBER')
+                            : t('ADMIN')}
                       </p>
                     </div>
                   </div>
@@ -182,7 +188,9 @@ export function OrganizationCard(props: {
                           });
                         }}
                       >
-                        {currentMember?.id === member.id ? 'Leave' : 'Remove'}
+                        {currentMember?.id === member.id
+                          ? t('LEAVE')
+                          : t('REMOVE')}
                       </Button>
                     )}
                 </div>
@@ -198,7 +206,9 @@ export function OrganizationCard(props: {
                     </Avatar>
                     <div>
                       <p className="text-sm">{session?.user.name}</p>
-                      <p className="text-xs text-muted-foreground">Owner</p>
+                      <p className="text-xs text-muted-foreground">
+                        {t('OWNER')}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -207,7 +217,7 @@ export function OrganizationCard(props: {
           </div>
           <div className="flex flex-col gap-2 flex-grow">
             <p className="font-medium border-b-2 border-b-foreground/10">
-              Invites
+              {t('INVITES')}
             </p>
             <div className="flex flex-col gap-2">
               <AnimatePresence>
@@ -226,7 +236,11 @@ export function OrganizationCard(props: {
                       <div>
                         <p className="text-sm">{invitation.email}</p>
                         <p className="text-xs text-muted-foreground">
-                          {invitation.role}
+                          {invitation.role === 'owner'
+                            ? t('OWNER')
+                            : invitation.role === 'member'
+                              ? t('MEMBER')
+                              : t('ADMIN')}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
@@ -268,7 +282,7 @@ export function OrganizationCard(props: {
                           {isRevoking.includes(invitation.id) ? (
                             <Loader2 className="animate-spin" size={16} />
                           ) : (
-                            'Revoke'
+                            t('REVOKE')
                           )}
                         </Button>
                         <div>
@@ -287,12 +301,12 @@ export function OrganizationCard(props: {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  No Active Invitations
+                  {t('NO_ACTIVE_INVITATIONS')}
                 </motion.p>
               )}
               {!optimisticOrg?.id && (
                 <Label className="text-xs text-muted-foreground">
-                  You can&apos;t invite members to your personal workspace.
+                  {t('CANT_INVITE_PERSONAL')}
                 </Label>
               )}
             </div>
@@ -309,6 +323,7 @@ export function OrganizationCard(props: {
 }
 
 function CreateOrganizationDialog() {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
   const [loading, setLoading] = useState(false);
@@ -348,27 +363,25 @@ function CreateOrganizationDialog() {
       <DialogTrigger asChild>
         <Button size="sm" className="w-full gap-2" variant="default">
           <PlusIcon />
-          <p>New Organization</p>
+          <p>{t('NEW_ORGANIZATION')}</p>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] w-11/12">
         <DialogHeader>
-          <DialogTitle>New Organization</DialogTitle>
-          <DialogDescription>
-            Create a new organization to collaborate with your team.
-          </DialogDescription>
+          <DialogTitle>{t('NEW_ORGANIZATION')}</DialogTitle>
+          <DialogDescription>{t('CREATE_ORGANIZATION')}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <Label>Organization Name</Label>
+            <Label>{t('ORGANIZATION_NAME')}</Label>
             <Input
-              placeholder="Name"
+              placeholder={t('NAME')}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label>Organization Slug</Label>
+            <Label>{t('ORGANIZATION_SLUG')}</Label>
             <Input
               value={slug}
               onChange={(e) => {
@@ -379,7 +392,7 @@ function CreateOrganizationDialog() {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label>Logo</Label>
+            <Label>{t('LOGO')}</Label>
             <Input type="file" accept="image/*" onChange={handleLogoChange} />
             {logo && (
               <div className="mt-2">
@@ -424,7 +437,7 @@ function CreateOrganizationDialog() {
             {loading ? (
               <Loader2 className="animate-spin" size={16} />
             ) : (
-              'Create'
+              t('CREATE')
             )}
           </Button>
         </DialogFooter>
@@ -434,6 +447,7 @@ function CreateOrganizationDialog() {
 }
 
 function InviteMemberDialog() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('member');
@@ -443,31 +457,29 @@ function InviteMemberDialog() {
       <DialogTrigger asChild>
         <Button size="sm" className="w-full gap-2" variant="secondary">
           <MailPlus size={16} />
-          <p>Invite Member</p>
+          <p>{t('INVITE_MEMBER')}</p>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] w-11/12">
         <DialogHeader>
-          <DialogTitle>Invite Member</DialogTitle>
-          <DialogDescription>
-            Invite a member to your organization.
-          </DialogDescription>
+          <DialogTitle>{t('INVITE_MEMBER')}</DialogTitle>
+          <DialogDescription>{t('INVITE_MEMBER_DESC')}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-2">
-          <Label>Email</Label>
+          <Label>{t('EMAIL')}</Label>
           <Input
-            placeholder="Email"
+            placeholder={t('EMAIL')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Label>Role</Label>
+          <Label>{t('ROLE')}</Label>
           <Select value={role} onValueChange={setRole}>
             <SelectTrigger>
-              <SelectValue placeholder="Select a role" />
+              <SelectValue placeholder={`${t('SELECT_USER')}`} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="admin">Admin</SelectItem>
-              <SelectItem value="member">Member</SelectItem>
+              <SelectItem value="admin">{t('ADMIN')}</SelectItem>
+              <SelectItem value="member">{t('MEMBER')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -493,7 +505,7 @@ function InviteMemberDialog() {
                 });
               }}
             >
-              Invite
+              {t('INVITE')}
             </Button>
           </DialogClose>
         </DialogFooter>

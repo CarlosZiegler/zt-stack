@@ -18,8 +18,10 @@ import { Loader2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 import { authClient } from '@/clients/authClient';
+import { useTranslation } from '@repo/intl/react';
 
 export function SignUpForm() {
+  const { t } = useTranslation();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -45,16 +47,16 @@ export function SignUpForm() {
   return (
     <Card className="z-50 rounded-2xl max-w-md">
       <CardHeader>
-        <CardTitle className="text-lg md:text-xl">Sign Up</CardTitle>
+        <CardTitle className="text-lg md:text-xl">{t('SIGN_UP')}</CardTitle>
         <CardDescription className="text-xs md:text-sm">
-          Enter your information to create an account
+          {t('SIGN_UP_DESC')}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="first-name">First name</Label>
+              <Label htmlFor="first-name">{t('FIRST_NAME')}</Label>
               <Input
                 id="first-name"
                 placeholder="Max"
@@ -66,7 +68,7 @@ export function SignUpForm() {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="last-name">Last name</Label>
+              <Label htmlFor="last-name">{t('LAST_NAME')}</Label>
               <Input
                 id="last-name"
                 placeholder="Robinson"
@@ -79,7 +81,7 @@ export function SignUpForm() {
             </div>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t('EMAIL')}</Label>
             <Input
               id="email"
               type="email"
@@ -92,29 +94,29 @@ export function SignUpForm() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t('PASSWORD')}</Label>
             <Input
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="new-password"
-              placeholder="Password"
+              placeholder={t('PASSWORD')}
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Confirm Password</Label>
+            <Label htmlFor="password">{t('CONFIRM_PASSWORD')}</Label>
             <Input
               id="password_confirmation"
               type="password"
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
               autoComplete="new-password"
-              placeholder="Confirm Password"
+              placeholder={t('CONFIRM_PASSWORD')}
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="image">Profile Image (optional)</Label>
+            <Label htmlFor="image">{t('PROFILE_IMAGE')}</Label>
             <div className="flex items-end gap-4">
               <div className="flex items-center gap-2 w-full">
                 <Input
@@ -167,7 +169,7 @@ export function SignUpForm() {
             {loading ? (
               <Loader2 size={16} className="animate-spin" />
             ) : (
-              'Create an account'
+              t('CREATE_ACCOUNT')
             )}
           </Button>
         </div>
@@ -175,7 +177,8 @@ export function SignUpForm() {
       <CardFooter>
         <div className="flex justify-center w-full border-t py-4">
           <p className="text-center text-xs text-neutral-500">
-            Secured by <span className="text-orange-400">better-auth.</span>
+            {t('SECURED_BY')}{' '}
+            <span className="text-orange-400">better-auth.</span>
           </p>
         </div>
       </CardFooter>

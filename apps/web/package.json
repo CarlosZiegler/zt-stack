@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "@radix-ui/react-icons": "catalog:",
+    "@repo/api": "workspace:*",
     "@repo/auth": "workspace:*",
+    "@repo/intl": "workspace:*",
     "@repo/ui": "workspace:*",
     "@tailwindcss/vite": "catalog:",
     "@tanstack/react-form": "catalog:",
@@ -30,7 +32,7 @@
     "date-fns": "^4.1.0",
     "dotenv-cli": "catalog:",
     "framer-motion": "^12.4.7",
-    "lucide-react": "^0.475.0",
+    "lucide-react": "^0.476.0",
     "next-themes": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
@@ -42,7 +44,6 @@
   },
   "prettier": "@repo/prettier-config",
   "devDependencies": {
-    "@repo/api": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",

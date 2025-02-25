@@ -4,6 +4,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { queryClient } from '@/clients/queryClient';
 import { trpc } from '@/router';
 import { postsLinkOptions } from '@/validations/posts-link-options';
+import { useTranslation } from '@repo/intl/react';
 
 export const Route = createFileRoute('/_protected/posts/$postid/')({
   loader: ({ params }) =>
@@ -11,6 +12,7 @@ export const Route = createFileRoute('/_protected/posts/$postid/')({
       trpc.posts.one.queryOptions({ id: params.postid }),
     ),
   errorComponent: ({ error, reset }) => {
+    const { t } = useTranslation();
     return (
       <div className="flex flex-col items-center w-full gap-y-3">
         <div>{error.message}</div>
@@ -18,7 +20,7 @@ export const Route = createFileRoute('/_protected/posts/$postid/')({
           <Button asChild variant="outline" className="w-full">
             <Link {...postsLinkOptions}>
               <ArrowLeftIcon />
-              Go Back
+              {t('GO_BACK')}
             </Link>
           </Button>
           <Button
@@ -29,7 +31,7 @@ export const Route = createFileRoute('/_protected/posts/$postid/')({
             }}
             className="w-full"
           >
-            Retry? <ReloadIcon />
+            {t('RETRY')} <ReloadIcon />
           </Button>
         </div>
       </div>

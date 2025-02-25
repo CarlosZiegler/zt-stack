@@ -20,6 +20,7 @@ import { toast } from 'sonner';
 import * as z from 'zod';
 import { trpc } from '@/router';
 import FormFieldInfo from '@/routes/-components/common/form-field-info';
+import { useTranslation } from '@repo/intl/react';
 
 const FormSchema = z.object({
   title: z.string().min(3, 'Please enter at least 3 characters'),
@@ -29,6 +30,7 @@ const FormSchema = z.object({
 const generateTimestamp = () => +new Date();
 
 export default function CreatePostButton() {
+  const { t } = useTranslation();
   const getAllPostsQuery = useQuery(trpc.posts.all.queryOptions());
   const createPostMutation = useMutation(trpc.posts.create.mutationOptions());
   const [openDialog, setOpenDialog] = useState(false);
@@ -59,12 +61,12 @@ and to the unceasing vigilance of agents of the United States Handicapper Genera
         setOpenDialog(false);
         await getAllPostsQuery.refetch();
         formApi.reset();
-        toast.success('Your post has been created!');
+        toast.success(t('POST_CREATED_SUCCESS'));
       } catch (error) {
         if (error instanceof TRPCClientError) {
           toast.error(error.message);
         } else {
-          toast.error('An unknown error has occurred. Please try again!');
+          toast.error(t('POST_CREATION_ERROR'));
         }
       }
     },
@@ -75,15 +77,13 @@ and to the unceasing vigilance of agents of the United States Handicapper Genera
       <DialogTrigger asChild>
         <Button>
           <PlusIcon />
-          Create
+          {t('CREATE')}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[90vw] xl:max-w-screen-lg data-[state=open]:slide-in-from-right-1/3 data-[state=closed]:slide-out-to-right-1/3">
         <DialogHeader>
-          <DialogTitle>Create Post</DialogTitle>
-          <DialogDescription>
-            Write about an interesting topic!
-          </DialogDescription>
+          <DialogTitle>{t('CREATE_POST')}</DialogTitle>
+          <DialogDescription>{t('CREATE_POST_DESC')}</DialogDescription>
         </DialogHeader>
         <form
           className="flex flex-col gap-y-3"
@@ -99,7 +99,7 @@ and to the unceasing vigilance of agents of the United States Handicapper Genera
               children={(field) => {
                 return (
                   <>
-                    <Label htmlFor={field.name}>Title</Label>
+                    <Label htmlFor={field.name}>{t('TITLE')}</Label>
                     <Input
                       className="mt-2"
                       id={field.name}
@@ -120,7 +120,7 @@ and to the unceasing vigilance of agents of the United States Handicapper Genera
               children={(field) => {
                 return (
                   <>
-                    <Label htmlFor={field.name}>Content</Label>
+                    <Label htmlFor={field.name}>{t('CONTENT')}</Label>
                     <Textarea
                       className="mt-2"
                       rows={8}
@@ -145,7 +145,7 @@ and to the unceasing vigilance of agents of the United States Handicapper Genera
                   disabled={!canSubmit}
                   className="mt-3 h-10 w-24"
                 >
-                  {isSubmitting ? '...' : `Create`}
+                  {isSubmitting ? '...' : t('CREATE')}
                 </Button>
               )}
             />

@@ -15,8 +15,10 @@ import { authClient } from '@/clients/authClient';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
+import { useTranslation } from '@repo/intl/react';
 
 export default function Component() {
+  const { t } = useTranslation();
   const [totpCode, setTotpCode] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -24,7 +26,7 @@ export default function Component() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (totpCode.length !== 6 || !/^\d+$/.test(totpCode)) {
-      setError('TOTP code must be 6 digits');
+      setError(t('TOTP_ERROR'));
       return;
     }
     authClient.twoFactor
@@ -36,7 +38,7 @@ export default function Component() {
           setSuccess(true);
           setError('');
         } else {
-          setError('Invalid TOTP code');
+          setError(t('INVALID_OTP'));
         }
       });
   };
@@ -45,16 +47,14 @@ export default function Component() {
     <main className="flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>TOTP Verification</CardTitle>
-          <CardDescription>
-            Enter your 6-digit TOTP code to authenticate
-          </CardDescription>
+          <CardTitle>{t('TOTP_VERIFICATION')}</CardTitle>
+          <CardDescription>{t('ENTER_TOTP')}</CardDescription>
         </CardHeader>
         <CardContent>
           {!success ? (
             <form onSubmit={handleSubmit}>
               <div className="space-y-2">
-                <Label htmlFor="totp">TOTP Code</Label>
+                <Label htmlFor="totp">{t('TOTP_CODE')}</Label>
                 <Input
                   id="totp"
                   type="text"
@@ -63,7 +63,7 @@ export default function Component() {
                   maxLength={6}
                   value={totpCode}
                   onChange={(e) => setTotpCode(e.target.value)}
-                  placeholder="Enter 6-digit code"
+                  placeholder={t('ENTER_6_DIGIT_CODE')}
                   required
                 />
               </div>
@@ -74,20 +74,22 @@ export default function Component() {
                 </div>
               )}
               <Button type="submit" className="w-full mt-4">
-                Verify
+                {t('VERIFY')}
               </Button>
             </form>
           ) : (
             <div className="flex flex-col items-center justify-center space-y-2">
               <CheckCircle2 className="w-12 h-12 text-green-500" />
-              <p className="text-lg font-semibold">Verification Successful</p>
+              <p className="text-lg font-semibold">
+                {t('VERIFICATION_SUCCESSFUL')}
+              </p>
             </div>
           )}
         </CardContent>
         <CardFooter className="text-sm text-muted-foreground gap-2">
           <Link to="/two-factor/otp">
             <Button variant="link" size="sm">
-              Switch to Email Verification
+              {t('SWITCH_EMAIL_VERIFICATION')}
             </Button>
           </Link>
         </CardFooter>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslation } from '@repo/intl/react';
 import { Badge } from '@repo/ui/components/badge';
 import { Button } from '@repo/ui/components/button';
 import { Calendar } from '@repo/ui/components/calendar';
@@ -53,7 +54,6 @@ import {
 import { useState } from 'react';
 import { toast, Toaster } from 'sonner';
 import { authClient } from '@/clients/authClient';
-
 type User = {
   id: string;
   email: string;
@@ -63,6 +63,7 @@ type User = {
 
 export default function AdminDashboard() {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -112,14 +113,14 @@ export default function AdminDashboard() {
         role: newUser.role,
       });
       console.log(result);
-      toast.success('User created successfully');
+      toast.success(t('USER_CREATED_SUCCESS'));
       setNewUser({ email: '', password: '', name: '', role: 'user' });
       setIsDialogOpen(false);
       queryClient.invalidateQueries({
         queryKey: ['users'],
       });
     } catch (error: any) {
-      toast.error(error.message || 'Failed to create user');
+      toast.error(t('FAILED_TO_CREATE_USER'));
     } finally {
       setIsLoading(undefined);
     }
@@ -129,12 +130,12 @@ export default function AdminDashboard() {
     setIsLoading(`delete-${id}`);
     try {
       await authClient.admin.removeUser({ userId: id });
-      toast.success('User deleted successfully');
+      toast.success(t('USER_DELETED_SUCCESS'));
       queryClient.invalidateQueries({
         queryKey: ['users'],
       });
     } catch (error: any) {
-      toast.error(error.message || 'Failed to delete user');
+      toast.error(t('FAILED_TO_DELETE_USER'));
     } finally {
       setIsLoading(undefined);
     }
@@ -144,9 +145,9 @@ export default function AdminDashboard() {
     setIsLoading(`revoke-${id}`);
     try {
       await authClient.admin.revokeUserSessions({ userId: id });
-      toast.success('Sessions revoked for user');
+      toast.success(t('SESSIONS_REVOKED_SUCCESS'));
     } catch (error: any) {
-      toast.error(error.message || 'Failed to revoke sessions');
+      toast.error(t('FAILED_TO_REVOKE_SESSIONS'));
     } finally {
       setIsLoading(undefined);
     }
@@ -156,10 +157,10 @@ export default function AdminDashboard() {
     setIsLoading(`impersonate-${id}`);
     try {
       await authClient.admin.impersonateUser({ userId: id });
-      toast.success('Impersonated user');
+      toast.success(t('IMPERSONATED_USER'));
       navigate({ to: '/' });
     } catch (error: any) {
-      toast.error(error.message || 'Failed to impersonate user');
+      toast.error(t('FAILED_TO_IMPERSONATE_USER'));
     } finally {
       setIsLoading(undefined);
     }
@@ -170,20 +171,20 @@ export default function AdminDashboard() {
     setIsLoading(`ban-${banForm.userId}`);
     try {
       if (!banForm.expirationDate) {
-        throw new Error('Expiration date is required');
+        throw new Error(t('EXPIRATION_DATE_REQUIRED'));
       }
       await authClient.admin.banUser({
         userId: banForm.userId,
         banReason: banForm.reason,
         banExpiresIn: banForm.expirationDate.getTime() - new Date().getTime(),
       });
-      toast.success('User banned successfully');
+      toast.success(t('USER_BANNED_SUCCESS'));
       setIsBanDialogOpen(false);
       queryClient.invalidateQueries({
         queryKey: ['users'],
       });
     } catch (error: any) {
-      toast.error(error.message || 'Failed to ban user');
+      toast.error(t('FAILED_TO_BAN_USER'));
     } finally {
       setIsLoading(undefined);
     }
@@ -194,16 +195,16 @@ export default function AdminDashboard() {
       <Toaster richColors />
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-2xl">Admin Dashboard</CardTitle>
+          <CardTitle className="text-2xl">{t('ADMIN_DASHBOARD')}</CardTitle>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button>
-                <Plus className="mr-2 h-4 w-4" /> Create User
+                <Plus className="mr-2 h-4 w-4" /> {t('CREATE_USER')}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Create New User</DialogTitle>
+                <DialogTitle>{t('CREATE_USER')}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleCreateUser} className="space-y-4">
                 <div>
@@ -219,7 +220,7 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t('PASSWORD')}</Label>
                   <Input
                     id="password"
                     type="password"
@@ -231,7 +232,7 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="name">Name</Label>
+                  <Label htmlFor="name">{t('NAME')}</Label>
                   <Input
                     id="name"
                     value={newUser.name}
@@ -242,7 +243,7 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="role">Role</Label>
+                  <Label htmlFor="role">{t('ROLE')}</Label>
                   <Select
                     value={newUser.role}
                     onValueChange={(value: 'admin' | 'user') =>
@@ -253,8 +254,8 @@ export default function AdminDashboard() {
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="admin">Admin</SelectItem>
-                      <SelectItem value="user">User</SelectItem>
+                      <SelectItem value="admin">{t('ADMIN')}</SelectItem>
+                      <SelectItem value="user">{t('USER')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -266,10 +267,10 @@ export default function AdminDashboard() {
                   {isLoading === 'create' ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Creating...
+                      {t('CREATING')}
                     </>
                   ) : (
-                    'Create User'
+                    t('CREATE_USER')
                   )}
                 </Button>
               </form>
@@ -278,11 +279,11 @@ export default function AdminDashboard() {
           <Dialog open={isBanDialogOpen} onOpenChange={setIsBanDialogOpen}>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Ban User</DialogTitle>
+                <DialogTitle>{t('BAN_USER')}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleBanUser} className="space-y-4">
                 <div>
-                  <Label htmlFor="reason">Reason</Label>
+                  <Label htmlFor="reason">{t('REASON')}</Label>
                   <Input
                     id="reason"
                     value={banForm.reason}
@@ -293,7 +294,7 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="expirationDate">Expiration Date</Label>
+                  <Label htmlFor="expirationDate">{t('EXPIRATION_DATE')}</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
@@ -308,7 +309,7 @@ export default function AdminDashboard() {
                         {banForm.expirationDate ? (
                           format(banForm.expirationDate, 'PPP')
                         ) : (
-                          <span>Pick a date</span>
+                          <span>{t('PICK_A_DATE')}</span>
                         )}
                       </Button>
                     </PopoverTrigger>
@@ -332,10 +333,10 @@ export default function AdminDashboard() {
                   {isLoading === `ban-${banForm.userId}` ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Banning...
+                      {t('BANNING')}
                     </>
                   ) : (
-                    'Ban User'
+                    t('BAN_USER')
                   )}
                 </Button>
               </form>
@@ -351,11 +352,11 @@ export default function AdminDashboard() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Banned</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>{t('EMAIL')}</TableHead>
+                  <TableHead>{t('NAME')}</TableHead>
+                  <TableHead>{t('ROLE')}</TableHead>
+                  <TableHead>{t('BANNED')}</TableHead>
+                  <TableHead>{t('ACTIONS')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -366,9 +367,9 @@ export default function AdminDashboard() {
                     <TableCell>{user.role || 'user'}</TableCell>
                     <TableCell>
                       {user.banned ? (
-                        <Badge variant="destructive">Yes</Badge>
+                        <Badge variant="destructive">{t('YES')}</Badge>
                       ) : (
-                        <Badge variant="outline">No</Badge>
+                        <Badge variant="outline">{t('NO')}</Badge>
                       )}
                     </TableCell>
                     <TableCell>
@@ -408,7 +409,7 @@ export default function AdminDashboard() {
                           ) : (
                             <>
                               <UserCircle className="h-4 w-4 mr-2" />
-                              Impersonate
+                              {t('IMPERSONATE')}
                             </>
                           )}
                         </Button>
@@ -431,7 +432,7 @@ export default function AdminDashboard() {
                                   onError(context) {
                                     toast.error(
                                       context.error.message ||
-                                        'Failed to unban user',
+                                        t('FAILED_TO_UNBAN_USER'),
                                     );
                                     setIsLoading(undefined);
                                   },
@@ -439,7 +440,7 @@ export default function AdminDashboard() {
                                     queryClient.invalidateQueries({
                                       queryKey: ['users'],
                                     });
-                                    toast.success('User unbanned successfully');
+                                    toast.success(t('USER_UNBANNED_SUCCESS'));
                                   },
                                 },
                               );
@@ -455,9 +456,9 @@ export default function AdminDashboard() {
                           {isLoading === `ban-${user.id}` ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
                           ) : user.banned ? (
-                            'Unban'
+                            t('UNBAN')
                           ) : (
-                            'Ban'
+                            t('BAN')
                           )}
                         </Button>
                       </div>

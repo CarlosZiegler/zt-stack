@@ -1,3 +1,5 @@
+'use client';
+
 import { MobileIcon } from '@radix-ui/react-icons';
 import { Alert, AlertTitle, AlertDescription } from '@repo/ui/components/alert';
 import {
@@ -27,6 +29,7 @@ import {
 import { Input } from '@repo/ui/components/input';
 import { Label } from '@repo/ui/components/label';
 import { PasswordInput } from '@repo/ui/components/password-input';
+import { useTranslation } from '@repo/intl/react';
 
 import {
   Table,
@@ -49,6 +52,7 @@ import {
   ShieldOff,
   Trash,
   X,
+  Check,
 } from 'lucide-react';
 
 import { useState } from 'react';
@@ -57,11 +61,20 @@ import { toast } from 'sonner';
 import { UAParser } from 'ua-parser-js';
 import type { AuthClient } from '@repo/auth/client';
 import { authClient } from '@/clients/authClient';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@repo/ui/components/dropdown-menu';
+import { Globe } from 'lucide-react';
+import { Badge } from '@repo/ui/components/badge';
 
 export default function UserCard(props: {
   session: AuthClient['$Infer']['Session'] | null;
   activeSessions: AuthClient['$Infer']['Session']['session'][];
 }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { data } = authClient.useSession();
   const session = data || props.session;
@@ -76,8 +89,9 @@ export default function UserCard(props: {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>User</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle>{t('USER')}</CardTitle>
+        <LanguageSwitch />
       </CardHeader>
       <CardContent className="grid gap-8 grid-cols-1">
         <div className="flex items-start justify-between">
@@ -102,11 +116,9 @@ export default function UserCard(props: {
 
         {session?.user.emailVerified ? null : (
           <Alert>
-            <AlertTitle>Verify Your Email Address</AlertTitle>
+            <AlertTitle>{t('VERIFY_EMAIL')}</AlertTitle>
             <AlertDescription className="text-muted-foreground">
-              Please verify your email address. Check your inbox for the
-              verification email. If you haven't received the email, click the
-              button below to resend.
+              {t('VERIFY_EMAIL_DESC')}
             </AlertDescription>
             <Button
               size="sm"
@@ -136,14 +148,14 @@ export default function UserCard(props: {
               {emailVerificationPending ? (
                 <Loader2 size={15} className="animate-spin" />
               ) : (
-                'Resend Verification Email'
+                t('RESEND_VERIFICATION')
               )}
             </Button>
           </Alert>
         )}
 
         <div className="border-l-2 px-2 w-max gap-1 flex flex-col">
-          <p className="text-xs font-medium ">Active Sessions</p>
+          <p className="text-xs font-medium ">{t('ACTIVE_SESSIONS')}</p>
           {props.activeSessions
             .filter((session) => session.userAgent)
             .map((session) => {
@@ -178,9 +190,9 @@ export default function UserCard(props: {
                       {isTerminating === session.id ? (
                         <Loader2 size={15} className="animate-spin" />
                       ) : session.id === props.session?.session.id ? (
-                        'Sign Out'
+                        t('SIGN_OUT')
                       ) : (
-                        'Terminate'
+                        t('TERMINATE')
                       )}
                     </button>
                   </div>
@@ -190,29 +202,29 @@ export default function UserCard(props: {
         </div>
         <div className="border-y py-4 flex items-center flex-wrap justify-between gap-2">
           <div className="flex flex-col gap-2">
-            <p className="text-sm">Passkeys</p>
+            <p className="text-sm">{t('PASSKEYS')}</p>
             <div className="flex gap-2 flex-wrap">
               <AddPasskey />
               <ListPasskeys />
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <p className="text-sm">Two Factor</p>
+            <p className="text-sm">{t('TWO_FACTOR')}</p>
             <div className="flex gap-2">
               {!!session?.user.twoFactorEnabled && (
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="outline" className="gap-2">
                       <QrCode size={16} />
-                      <span className="md:text-sm text-xs">Scan QR Code</span>
+                      <span className="md:text-sm text-xs">
+                        {t('SCAN_QR_CODE')}
+                      </span>
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[425px] w-11/12">
                     <DialogHeader>
-                      <DialogTitle>Scan QR Code</DialogTitle>
-                      <DialogDescription>
-                        Scan the QR code with your TOTP app
-                      </DialogDescription>
+                      <DialogTitle>{t('SCAN_QR_CODE')}</DialogTitle>
+                      <DialogDescription>{t('SCAN_QR_DESC')}</DialogDescription>
                     </DialogHeader>
 
                     {twoFactorVerifyURI ? (
@@ -222,7 +234,7 @@ export default function UserCard(props: {
                         </div>
                         <div className="flex gap-2 items-center justify-center">
                           <p className="text-sm text-muted-foreground">
-                            Copy URI to clipboard
+                            {t('COPY_URI')}
                           </p>
                           <CopyButton textToCopy={twoFactorVerifyURI} />
                         </div>
@@ -234,7 +246,7 @@ export default function UserCard(props: {
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setTwoFaPassword(e.target.value)
                           }
-                          placeholder="Enter Password"
+                          placeholder={t('ENTER_PASSWORD')}
                         />
                         <Button
                           onClick={async () => {
@@ -257,7 +269,7 @@ export default function UserCard(props: {
                             setTwoFaPassword('');
                           }}
                         >
-                          Show QR Code
+                          {t('SHOW_QR_CODE')}
                         </Button>
                       </div>
                     )}
@@ -279,8 +291,8 @@ export default function UserCard(props: {
                     )}
                     <span className="md:text-sm text-xs">
                       {session?.user.twoFactorEnabled
-                        ? 'Disable 2FA'
-                        : 'Enable 2FA'}
+                        ? t('DISABLE_2FA')
+                        : t('ENABLE_2FA')}
                     </span>
                   </Button>
                 </DialogTrigger>
@@ -288,13 +300,13 @@ export default function UserCard(props: {
                   <DialogHeader>
                     <DialogTitle>
                       {session?.user.twoFactorEnabled
-                        ? 'Disable 2FA'
-                        : 'Enable 2FA'}
+                        ? t('DISABLE_2FA')
+                        : t('ENABLE_2FA')}
                     </DialogTitle>
                     <DialogDescription>
                       {session?.user.twoFactorEnabled
-                        ? 'Disable the second factor authentication from your account'
-                        : 'Enable 2FA to secure your account'}
+                        ? t('DISABLE_2FA_DESC')
+                        : t('ENABLE_2FA_DESC')}
                     </DialogDescription>
                   </DialogHeader>
 
@@ -303,21 +315,19 @@ export default function UserCard(props: {
                       <div className="flex items-center justify-center">
                         <QRCode value={twoFactorVerifyURI} />
                       </div>
-                      <Label htmlFor="password">
-                        Scan the QR code with your TOTP app
-                      </Label>
+                      <Label htmlFor="password">{t('SCAN_QR_DESC')}</Label>
                       <Input
                         value={twoFaPassword}
                         onChange={(e) => setTwoFaPassword(e.target.value)}
-                        placeholder="Enter OTP"
+                        placeholder={t('ENTER_OTP')}
                       />
                     </div>
                   ) : (
                     <div className="flex flex-col gap-2">
-                      <Label htmlFor="password">Password</Label>
+                      <Label htmlFor="password">{t('PASSWORD')}</Label>
                       <PasswordInput
                         id="password"
-                        placeholder="Password"
+                        placeholder={t('PASSWORD')}
                         value={twoFaPassword}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setTwoFaPassword(e.target.value)
@@ -377,8 +387,6 @@ export default function UserCard(props: {
                               },
                               onSuccess(ctx) {
                                 setTwoFactorVerifyURI(ctx.data.totpURI);
-                                // toast.success("2FA enabled successfully");
-                                // setTwoFactorDialog(false);
                               },
                             },
                           });
@@ -390,9 +398,9 @@ export default function UserCard(props: {
                       {isPendingTwoFa ? (
                         <Loader2 size={15} className="animate-spin" />
                       ) : session?.user.twoFactorEnabled ? (
-                        'Disable 2FA'
+                        t('DISABLE_2FA')
                       ) : (
-                        'Enable 2FA'
+                        t('ENABLE_2FA')
                       )}
                     </Button>
                   </DialogFooter>
@@ -426,7 +434,7 @@ export default function UserCard(props: {
             ) : (
               <div className="flex items-center gap-2">
                 <LogOut size={16} />
-                Sign Out
+                {t('SIGN_OUT')}
               </div>
             )}
           </span>
@@ -446,6 +454,7 @@ async function convertImageToBase64(file: File): Promise<string> {
 }
 
 function ChangePassword() {
+  const { t } = useTranslation();
   const [currentPassword, setCurrentPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
@@ -467,16 +476,18 @@ function ChangePassword() {
               d="M2.5 18.5v-1h19v1zm.535-5.973l-.762-.442l.965-1.693h-1.93v-.884h1.93l-.965-1.642l.762-.443L4 9.066l.966-1.643l.761.443l-.965 1.642h1.93v.884h-1.93l.965 1.693l-.762.442L4 10.835zm8 0l-.762-.442l.966-1.693H9.308v-.884h1.93l-.965-1.642l.762-.443L12 9.066l.966-1.643l.761.443l-.965 1.642h1.93v.884h-1.93l.965 1.693l-.762.442L12 10.835zm8 0l-.762-.442l.966-1.693h-1.931v-.884h1.93l-.965-1.642l.762-.443L20 9.066l.966-1.643l.761.443l-.965 1.642h1.93v.884h-1.93l.965 1.693l-.762.442L20 10.835z"
             ></path>
           </svg>
-          <span className="text-sm text-muted-foreground">Change Password</span>
+          <span className="text-sm text-muted-foreground">
+            {t('CHANGE_PASSWORD')}
+          </span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] w-11/12">
         <DialogHeader>
-          <DialogTitle>Change Password</DialogTitle>
-          <DialogDescription>Change your password</DialogDescription>
+          <DialogTitle>{t('CHANGE_PASSWORD')}</DialogTitle>
+          <DialogDescription>{t('CHANGE_PASSWORD_DESC')}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-2">
-          <Label htmlFor="current-password">Current Password</Label>
+          <Label htmlFor="current-password">{t('CURRENT_PASSWORD')}</Label>
           <PasswordInput
             id="current-password"
             value={currentPassword}
@@ -484,25 +495,25 @@ function ChangePassword() {
               setCurrentPassword(e.target.value)
             }
             autoComplete="new-password"
-            placeholder="Password"
+            placeholder={t('PASSWORD')}
           />
-          <Label htmlFor="new-password">New Password</Label>
+          <Label htmlFor="new-password">{t('NEW_PASSWORD')}</Label>
           <PasswordInput
             value={newPassword}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setNewPassword(e.target.value)
             }
             autoComplete="new-password"
-            placeholder="New Password"
+            placeholder={t('NEW_PASSWORD')}
           />
-          <Label htmlFor="password">Confirm Password</Label>
+          <Label htmlFor="password">{t('CONFIRM_PASSWORD')}</Label>
           <PasswordInput
             value={confirmPassword}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setConfirmPassword(e.target.value)
             }
             autoComplete="new-password"
-            placeholder="Confirm Password"
+            placeholder={t('CONFIRM_PASSWORD')}
           />
           <div className="flex gap-2 items-center">
             <Checkbox
@@ -510,7 +521,7 @@ function ChangePassword() {
                 checked ? setSignOutDevices(true) : setSignOutDevices(false)
               }
             />
-            <p className="text-sm">Sign out from other devices</p>
+            <p className="text-sm">{t('SIGN_OUT_DEVICES')}</p>
           </div>
         </div>
         <DialogFooter>
@@ -548,7 +559,7 @@ function ChangePassword() {
             {loading ? (
               <Loader2 size={15} className="animate-spin" />
             ) : (
-              'Change Password'
+              t('CHANGE_PASSWORD')
             )}
           </Button>
         </DialogFooter>
@@ -558,6 +569,7 @@ function ChangePassword() {
 }
 
 function EditUserDialog() {
+  const { t } = useTranslation();
   const { data, isPending, error } = authClient.useSession();
   const [name, setName] = useState<string>();
   const router = useRouter();
@@ -581,16 +593,16 @@ function EditUserDialog() {
       <DialogTrigger asChild>
         <Button size="sm" className="gap-2" variant="secondary">
           <Edit size={13} />
-          Edit User
+          {t('EDIT_USER')}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] w-11/12">
         <DialogHeader>
-          <DialogTitle>Edit User</DialogTitle>
-          <DialogDescription>Edit user information</DialogDescription>
+          <DialogTitle>{t('EDIT_USER')}</DialogTitle>
+          <DialogDescription>{t('EDIT_USER_DESC')}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-2">
-          <Label htmlFor="name">Full Name</Label>
+          <Label htmlFor="name">{t('FULL_NAME')}</Label>
           <Input
             id="name"
             type="name"
@@ -601,7 +613,7 @@ function EditUserDialog() {
             }}
           />
           <div className="grid gap-2">
-            <Label htmlFor="image">Profile Image</Label>
+            <Label htmlFor="image">{t('PROFILE_IMAGE')}</Label>
             <div className="flex items-end gap-4">
               {imagePreview && (
                 <div className="relative w-16 h-16 rounded-sm overflow-hidden">
@@ -661,7 +673,7 @@ function EditUserDialog() {
             {isLoading ? (
               <Loader2 size={15} className="animate-spin" />
             ) : (
-              'Update'
+              t('UPDATE')
             )}
           </Button>
         </DialogFooter>
@@ -671,6 +683,7 @@ function EditUserDialog() {
 }
 
 function AddPasskey() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [passkeyName, setPasskeyName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -697,19 +710,16 @@ function AddPasskey() {
       <DialogTrigger asChild>
         <Button variant="outline" className="gap-2 text-xs md:text-sm">
           <Plus size={15} />
-          Add New Passkey
+          {t('ADD_NEW_PASSKEY')}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] w-11/12">
         <DialogHeader>
-          <DialogTitle>Add New Passkey</DialogTitle>
-          <DialogDescription>
-            Create a new passkey to securely access your account without a
-            password.
-          </DialogDescription>
+          <DialogTitle>{t('ADD_NEW_PASSKEY')}</DialogTitle>
+          <DialogDescription>{t('ADD_PASSKEY_DESC')}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-2">
-          <Label htmlFor="passkey-name">Passkey Name</Label>
+          <Label htmlFor="passkey-name">{t('PASSKEY_NAME')}</Label>
           <Input
             id="passkey-name"
             value={passkeyName}
@@ -728,7 +738,7 @@ function AddPasskey() {
             ) : (
               <>
                 <Fingerprint className="mr-2 h-4 w-4" />
-                Create Passkey
+                {t('CREATE_PASSKEY')}
               </>
             )}
           </Button>
@@ -739,9 +749,12 @@ function AddPasskey() {
 }
 
 function ListPasskeys() {
+  const { t } = useTranslation();
   const { data } = authClient.useListPasskeys();
   const [isOpen, setIsOpen] = useState(false);
   const [passkeyName, setPasskeyName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDeletePasskey, setIsDeletePasskey] = useState<boolean>(false);
 
   const handleAddPasskey = async () => {
     if (!passkeyName) {
@@ -759,26 +772,26 @@ function ListPasskeys() {
       toast.success('Passkey added successfully. You can now use it to login.');
     }
   };
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDeletePasskey, setIsDeletePasskey] = useState<boolean>(false);
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="text-xs md:text-sm">
           <Fingerprint className="mr-2 h-4 w-4" />
-          <span>Passkeys {data?.length ? `[${data?.length}]` : ''}</span>
+          <span>
+            {t('PASSKEYS')} {data?.length ? `[${data?.length}]` : ''}
+          </span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] w-11/12">
         <DialogHeader>
-          <DialogTitle>Passkeys</DialogTitle>
-          <DialogDescription>List of passkeys</DialogDescription>
+          <DialogTitle>{t('PASSKEYS')}</DialogTitle>
+          <DialogDescription>{t('LIST_PASSKEYS')}</DialogDescription>
         </DialogHeader>
         {data?.length ? (
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
+                <TableHead>{t('NAME')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -787,7 +800,7 @@ function ListPasskeys() {
                   key={passkey.id}
                   className="flex  justify-between items-center"
                 >
-                  <TableCell>{passkey.name || 'My Passkey'}</TableCell>
+                  <TableCell>{passkey.name || t('NEW_PASSKEY')}</TableCell>
                   <TableCell className="text-right">
                     <button
                       onClick={async () => {
@@ -824,19 +837,19 @@ function ListPasskeys() {
             </TableBody>
           </Table>
         ) : (
-          <p className="text-sm text-muted-foreground">No passkeys found</p>
+          <p className="text-sm text-muted-foreground">{t('NO_PASSKEYS')}</p>
         )}
         {!data?.length && (
           <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2">
               <Label htmlFor="passkey-name" className="text-sm">
-                New Passkey
+                {t('NEW_PASSKEY')}
               </Label>
               <Input
                 id="passkey-name"
                 value={passkeyName}
                 onChange={(e) => setPasskeyName(e.target.value)}
-                placeholder="My Passkey"
+                placeholder={t('NEW_PASSKEY')}
               />
             </div>
             <Button type="submit" onClick={handleAddPasskey} className="w-full">
@@ -845,16 +858,50 @@ function ListPasskeys() {
               ) : (
                 <>
                   <Fingerprint className="mr-2 h-4 w-4" />
-                  Create Passkey
+                  {t('CREATE_PASSKEY')}
                 </>
               )}
             </Button>
           </div>
         )}
         <DialogFooter>
-          <Button onClick={() => setIsOpen(false)}>Close</Button>
+          <Button onClick={() => setIsOpen(false)}>{t('CLOSE')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function LanguageSwitch() {
+  const { t, i18n } = useTranslation();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm" className="gap-2">
+          <Globe size={16} />
+          <span>{t('LANGUAGE')}</span>
+          <Badge variant="secondary" className="ml-1 px-1 py-0 text-xs">
+            {i18n.language.toUpperCase()}
+          </Badge>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem
+          onClick={() => i18n.changeLanguage('en')}
+          className="flex justify-between"
+        >
+          {t('ENGLISH')}
+          {i18n.language === 'en' && <Check size={16} />}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => i18n.changeLanguage('de')}
+          className="flex justify-between"
+        >
+          {t('GERMAN')}
+          {i18n.language === 'de' && <Check size={16} />}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

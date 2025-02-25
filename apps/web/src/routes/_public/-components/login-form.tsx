@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import * as z from 'zod';
 import { authClient } from '@/clients/authClient';
 import FormFieldInfo from '@/routes/-components/common/form-field-info';
+import { useTranslation } from '@repo/intl/react';
 
 const FormSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -17,6 +18,7 @@ const FormSchema = z.object({
 
 export default function LoginCredentialsForm() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const form = useForm({
     defaultValues: {
@@ -60,7 +62,7 @@ export default function LoginCredentialsForm() {
           children={(field) => {
             return (
               <>
-                <Label htmlFor={field.name}>Email</Label>
+                <Label htmlFor={field.name}>{t('EMAIL')}</Label>
                 <Input
                   className="mt-1"
                   id={field.name}
@@ -81,7 +83,7 @@ export default function LoginCredentialsForm() {
           name="password"
           children={(field) => (
             <>
-              <Label htmlFor={field.name}>Password</Label>
+              <Label htmlFor={field.name}>{t('PASSWORD')}</Label>
               <>
                 <div className="flex justify-end items-center relative w-full">
                   <Input
@@ -117,7 +119,7 @@ export default function LoginCredentialsForm() {
         selector={(state) => [state.canSubmit, state.isSubmitting]}
         children={([canSubmit, isSubmitting]) => (
           <Button type="submit" disabled={!canSubmit} className="h-12 mt-3">
-            {isSubmitting ? '...' : 'Submit'}
+            {isSubmitting ? '...' : t('SUBMIT')}
           </Button>
         )}
       />

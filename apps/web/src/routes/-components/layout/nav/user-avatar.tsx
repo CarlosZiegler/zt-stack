@@ -12,6 +12,7 @@ import {
 } from '@repo/ui/components/dropdown-menu';
 import { useTheme } from 'next-themes';
 import { authClient } from '@/clients/authClient';
+import { useTranslation } from '@repo/intl/react';
 
 export default function UserAvatar({
   user,
@@ -19,13 +20,14 @@ export default function UserAvatar({
   user: typeof authClient.$Infer.Session.user;
 }) {
   const { resolvedTheme, setTheme } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer w-8.5 h-8.5">
           <AvatarImage referrerPolicy="no-referrer" src={user.image ?? ''} />
-          <AvatarFallback className="text-sm">
+          <AvatarFallback className="text-sm bg-cyan-500 text-white">
             {(user.name?.split(' ')[0]?.[0] || '') +
               (user.name?.split(' ')[1]?.[0] || '')}
           </AvatarFallback>
@@ -46,7 +48,7 @@ export default function UserAvatar({
           }}
         >
           {resolvedTheme === 'dark' ? <MoonIcon /> : <SunIcon />}
-          <span className="ml-[5px] capitalize">Theme</span>
+          <span className="ml-[5px] capitalize">{t('THEME')}</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={async () => {
@@ -55,7 +57,7 @@ export default function UserAvatar({
           className="cursor-pointer"
         >
           <ExitIcon className="mr-[5px] w-5 ml-[0.5px]" />
-          Logout
+          {t('LOGOUT')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

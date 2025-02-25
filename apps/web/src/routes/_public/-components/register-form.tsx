@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import * as z from 'zod';
 import { authClient } from '@/clients/authClient';
 import FormFieldInfo from '@/routes/-components/common/form-field-info';
+import { useTranslation } from '@repo/intl/react';
 
 const FormSchema = z
   .object({
@@ -27,6 +28,7 @@ export default function RegisterCredentialsForm() {
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const form = useForm({
     defaultValues: {
@@ -71,7 +73,7 @@ export default function RegisterCredentialsForm() {
           name="name"
           children={(field) => (
             <>
-              <Label htmlFor={field.name}>Name</Label>
+              <Label htmlFor={field.name}>{t('NAME')}</Label>
               <Input
                 className="mt-1"
                 id={field.name}
@@ -91,7 +93,7 @@ export default function RegisterCredentialsForm() {
           name="email"
           children={(field) => (
             <>
-              <Label htmlFor={field.name}>Email</Label>
+              <Label htmlFor={field.name}>{t('EMAIL')}</Label>
               <Input
                 className="mt-1"
                 id={field.name}
@@ -111,7 +113,7 @@ export default function RegisterCredentialsForm() {
           name="password"
           children={(field) => (
             <>
-              <Label htmlFor={field.name}>Password</Label>
+              <Label htmlFor={field.name}>{t('PASSWORD')}</Label>
               <div className="flex justify-end items-center relative w-full">
                 <Input
                   className="mt-1"
@@ -146,7 +148,7 @@ export default function RegisterCredentialsForm() {
           name="confirmPassword"
           children={(field) => (
             <>
-              <Label htmlFor={field.name}>Confirm Password</Label>
+              <Label htmlFor={field.name}>{t('CONFIRM_PASSWORD')}</Label>
               <div className="flex justify-end items-center relative w-full">
                 <Input
                   className="mt-1"
@@ -180,7 +182,7 @@ export default function RegisterCredentialsForm() {
         selector={(state) => [state.canSubmit, state.isSubmitting]}
         children={([canSubmit, isSubmitting]) => (
           <Button type="submit" disabled={!canSubmit} className="h-12 mt-3">
-            {isSubmitting ? '...' : 'Register'}
+            {isSubmitting ? '...' : t('REGISTER')}
           </Button>
         )}
       />

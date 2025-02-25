@@ -6,6 +6,7 @@ import type { inferRouterOutputs } from '@trpc/server';
 import { trpc } from '@/router';
 import CreatePostButton from '@/routes/_protected/posts/-components/create-post';
 import DeletePostButton from '@/routes/_protected/posts/-components/delete-post';
+import { useTranslation } from '@repo/intl/react';
 
 export const Route = createLazyFileRoute('/_protected/posts/')({
   component: RouteComponent,
@@ -35,19 +36,20 @@ function PostItem({
 }
 
 function RouteComponent() {
+  const { t } = useTranslation();
   const { data: posts } = useQuery(trpc.posts.all.queryOptions());
 
   return (
     <div className="flex flex-col md:p-4 w-full max-w-6xl mx-auto">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl">Posts</h1>
+        <h1 className="text-2xl">{t('POSTS_TITLE')}</h1>
         <CreatePostButton />
       </div>
       <hr className="mt-4 border-b-2 border-gray-400" />
       <div className="flex gap-x-3 gap-y-3 flex-wrap mt-6">
         {posts?.length
           ? posts.map((p) => <PostItem key={p.id} post={p} />)
-          : 'There are no posts available.'}
+          : t('NO_POSTS_AVAILABLE')}
       </div>
     </div>
   );

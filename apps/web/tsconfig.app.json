@@ -1,6 +1,13 @@
 {
   "extends": "@repo/typescript-config/vite.json",
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/style.css", "env.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/style.css",
+    "env.ts",
+    "../../packages/intl/src/react-i18next.d.ts",
+    "../../packages/intl/src/i18next.d.ts"
+  ],
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,

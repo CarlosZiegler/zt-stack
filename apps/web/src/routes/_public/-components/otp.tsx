@@ -14,8 +14,10 @@ import { authClient } from '@/clients/authClient';
 import { AlertCircle, CheckCircle2, Mail } from 'lucide-react';
 import { useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
+import { useTranslation } from '@repo/intl/react';
 
 export default function Component() {
+  const { t } = useTranslation();
   const [otp, setOtp] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [message, setMessage] = useState('');
@@ -28,7 +30,7 @@ export default function Component() {
   const requestOTP = async () => {
     const res = await authClient.twoFactor.sendOtp();
     // In a real app, this would call your backend API to send the OTP
-    setMessage('OTP sent to your email');
+    setMessage(t('OTP_SENT'));
     setIsError(false);
     setIsOtpSent(true);
   };
@@ -39,40 +41,38 @@ export default function Component() {
       code: otp,
     });
     if (res.data) {
-      setMessage('OTP validated successfully');
+      setMessage(t('OTP_VALIDATED'));
       setIsError(false);
       setIsValidated(true);
       router.navigate({ to: '/' });
     } else {
       setIsError(true);
-      setMessage('Invalid OTP');
+      setMessage(t('INVALID_OTP'));
     }
   };
   return (
     <main className="flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Two-Factor Authentication</CardTitle>
-          <CardDescription>
-            Verify your identity with a one-time password
-          </CardDescription>
+          <CardTitle>{t('TWO_FACTOR_AUTH')}</CardTitle>
+          <CardDescription>{t('VERIFY_IDENTITY')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
             {!isOtpSent ? (
               <Button onClick={requestOTP} className="w-full">
-                <Mail className="mr-2 h-4 w-4" /> Send OTP to Email
+                <Mail className="mr-2 h-4 w-4" /> {t('SEND_OTP_EMAIL')}
               </Button>
             ) : (
               <>
                 <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="otp">One-Time Password</Label>
+                  <Label htmlFor="otp">{t('ONE_TIME_PASSWORD')}</Label>
                   <Label className="py-2">
-                    Check your email at {userEmail} for the OTP
+                    {t('CHECK_EMAIL_OTP')} {userEmail}
                   </Label>
                   <Input
                     id="otp"
-                    placeholder="Enter 6-digit OTP"
+                    placeholder={t('ENTER_6_DIGIT')}
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
                     maxLength={6}
@@ -82,7 +82,7 @@ export default function Component() {
                   onClick={validateOTP}
                   disabled={otp.length !== 6 || isValidated}
                 >
-                  Validate OTP
+                  {t('VALIDATE_OTP')}
                 </Button>
               </>
             )}

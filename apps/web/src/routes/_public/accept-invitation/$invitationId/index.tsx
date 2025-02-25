@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import { Skeleton } from '@repo/ui/components/skeleton';
 import { InvitationError } from '../../-components/invitation-error';
 import { authClient } from '@/clients/authClient';
+import { useTranslation } from '@repo/intl/react';
 
 export const Route = createFileRoute(
   '/_public/accept-invitation/$invitationId/',
@@ -23,6 +24,7 @@ export const Route = createFileRoute(
 });
 
 function RouteComponent() {
+  const { t } = useTranslation();
   const params = Route.useParams();
   const router = useRouter();
   const [invitationStatus, setInvitationStatus] = useState<
@@ -95,21 +97,19 @@ function RouteComponent() {
       {invitation ? (
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Organization Invitation</CardTitle>
-            <CardDescription>
-              You've been invited to join an organization
-            </CardDescription>
+            <CardTitle>{t('ORG_INVITATION')}</CardTitle>
+            <CardDescription>{t('ORG_INVITATION_DESC')}</CardDescription>
           </CardHeader>
           <CardContent>
             {invitationStatus === 'pending' && (
               <div className="space-y-4">
                 <p>
-                  <strong>{invitation?.inviterEmail}</strong> has invited you to
-                  join <strong>{invitation?.organizationName}</strong>.
+                  <strong>{invitation?.inviterEmail}</strong> {t('INVITED_BY')}{' '}
+                  <strong>{invitation?.organizationName}</strong>.
                 </p>
                 <p>
-                  This invitation was sent to{' '}
-                  <strong>{invitation?.email}</strong>.
+                  {t('INVITATION_SENT_TO')} <strong>{invitation?.email}</strong>
+                  .
                 </p>
               </div>
             )}
@@ -119,12 +119,9 @@ function RouteComponent() {
                   <CheckIcon className="w-8 h-8 text-green-600" />
                 </div>
                 <h2 className="text-2xl font-bold text-center">
-                  Welcome to {invitation?.organizationName}!
+                  {t('WELCOME_TO')} {invitation?.organizationName}!
                 </h2>
-                <p className="text-center">
-                  You've successfully joined the organization. We're excited to
-                  have you on board!
-                </p>
+                <p className="text-center">{t('JOIN_SUCCESS')}</p>
               </div>
             )}
             {invitationStatus === 'rejected' && (
@@ -133,11 +130,10 @@ function RouteComponent() {
                   <XIcon className="w-8 h-8 text-red-600" />
                 </div>
                 <h2 className="text-2xl font-bold text-center">
-                  Invitation Declined
+                  {t('INVITATION_DECLINED')}
                 </h2>
                 <p className="text-center">
-                  You&lsquo;ve declined the invitation to join{' '}
-                  {invitation?.organizationName}.
+                  {t('DECLINED_MESSAGE')} {invitation?.organizationName}.
                 </p>
               </div>
             )}
@@ -145,9 +141,9 @@ function RouteComponent() {
           {invitationStatus === 'pending' && (
             <CardFooter className="flex justify-between">
               <Button variant="outline" onClick={handleReject}>
-                Decline
+                {t('DECLINE')}
               </Button>
-              <Button onClick={handleAccept}>Accept Invitation</Button>
+              <Button onClick={handleAccept}>{t('ACCEPT_INVITATION')}</Button>
             </CardFooter>
           )}
         </Card>

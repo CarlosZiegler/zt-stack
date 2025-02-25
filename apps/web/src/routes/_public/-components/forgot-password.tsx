@@ -16,8 +16,10 @@ import { Link } from '@tanstack/react-router';
 import { AlertCircle, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import { authClient } from '@/clients/authClient';
+import { useTranslation } from '@repo/intl/react';
 
 export default function ForgotPasswordForm() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -46,17 +48,13 @@ export default function ForgotPasswordForm() {
       <main className="flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
         <Card className="w-[350px]">
           <CardHeader>
-            <CardTitle>Check your email</CardTitle>
-            <CardDescription>
-              We've sent a password reset link to your email.
-            </CardDescription>
+            <CardTitle>{t('CHECK_EMAIL')}</CardTitle>
+            <CardDescription>{t('PASSWORD_RESET_LINK_SENT')}</CardDescription>
           </CardHeader>
           <CardContent>
             <Alert>
               <CheckCircle2 className="h-4 w-4" />
-              <AlertDescription>
-                If you don't see the email, check your spam folder.
-              </AlertDescription>
+              <AlertDescription>{t('CHECK_SPAM')}</AlertDescription>
             </Alert>
           </CardContent>
           <CardFooter>
@@ -65,7 +63,7 @@ export default function ForgotPasswordForm() {
               className="w-full"
               onClick={() => setIsSubmitted(false)}
             >
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back to reset password
+              <ArrowLeft className="mr-2 h-4 w-4" /> {t('BACK_TO_RESET')}
             </Button>
           </CardFooter>
         </Card>
@@ -77,20 +75,18 @@ export default function ForgotPasswordForm() {
     <main className="flex flex-col items-center justify-center min-h-[calc(100vh-10rem)]">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Forgot password</CardTitle>
-          <CardDescription>
-            Enter your email to reset your password
-          </CardDescription>
+          <CardTitle>{t('FORGOT_PASSWORD')}</CardTitle>
+          <CardDescription>{t('FORGOT_PASSWORD_DESC')}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('EMAIL')}</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t('ENTER_EMAIL')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -108,14 +104,14 @@ export default function ForgotPasswordForm() {
               type="submit"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Sending...' : 'Send reset link'}
+              {isSubmitting ? t('SENDING') : t('SEND_RESET_LINK')}
             </Button>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">
           <Link to="/login">
             <Button variant="link" className="px-0">
-              Back to sign in
+              {t('BACK_TO_SIGN_IN')}
             </Button>
           </Link>
         </CardFooter>

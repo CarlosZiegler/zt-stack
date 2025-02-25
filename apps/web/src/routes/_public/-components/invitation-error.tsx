@@ -9,32 +9,31 @@ import {
 import { Button } from '@repo/ui/components/button';
 import { AlertCircle } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { useTranslation } from '@repo/intl/react';
 
 export function InvitationError() {
+  const { t } = useTranslation();
+
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
         <div className="flex items-center space-x-2">
           <AlertCircle className="w-6 h-6 text-destructive" />
           <CardTitle className="text-xl text-destructive">
-            Invitation Error
+            {t('INVITATION_ERROR')}
           </CardTitle>
         </div>
-        <CardDescription>
-          There was an issue with your invitation.
-        </CardDescription>
+        <CardDescription>{t('INVITATION_ERROR_DESC')}</CardDescription>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-sm text-muted-foreground">
-          The invitation you're trying to access is either invalid or you don't
-          have the correct permissions. Please check your email for a valid
-          invitation or contact the person who sent it.
+          {t('INVITATION_ERROR_MESSAGE')}
         </p>
       </CardContent>
       <CardFooter>
         <Link to="/" className="w-full">
           <Button variant="outline" className="w-full">
-            Go back to home
+            {t('GO_HOME')}
           </Button>
         </Link>
       </CardFooter>

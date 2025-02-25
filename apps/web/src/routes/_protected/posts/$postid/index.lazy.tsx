@@ -2,12 +2,14 @@ import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import { Button } from '@repo/ui/components/button';
 import { createLazyFileRoute, Link } from '@tanstack/react-router';
 import { postsLinkOptions } from '@/validations/posts-link-options';
+import { useTranslation } from '@repo/intl/react';
 
 export const Route = createLazyFileRoute('/_protected/posts/$postid/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const { t } = useTranslation();
   const post = Route.useLoaderData();
 
   return (
@@ -15,7 +17,8 @@ function RouteComponent() {
       <div className="text-center p-5 rounded-2xl">
         <h1 className="text-2xl md:text-4xl font-bold">{post.title}</h1>
         <p className="text-sm text-gray-500 mt-2">
-          Created by <span className="font-medium">{post.author.name}</span>,{' '}
+          {t('CREATED_BY')}{' '}
+          <span className="font-medium">{post.author.name}</span>,{' '}
           {post.createdAt.toLocaleString()}
         </p>
       </div>
@@ -32,7 +35,7 @@ function RouteComponent() {
 
       <div className="bg-elevated shadow rounded-2xl p-6 w-full min-h-96 border border-gray-500 break-words mt-6">
         <p className="leading-relaxed whitespace-break-spaces">
-          {post.content ?? 'No content available.'}
+          {post.content ?? t('NO_CONTENT_AVAILABLE')}
         </p>
       </div>
     </div>
