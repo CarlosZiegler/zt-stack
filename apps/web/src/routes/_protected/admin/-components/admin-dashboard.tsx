@@ -1,9 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { Badge } from '@repo/ui/components/badge';
 import { Button } from '@repo/ui/components/button';
+import { Calendar } from '@repo/ui/components/calendar';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@repo/ui/components/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@repo/ui/components/dialog';
 import { Input } from '@repo/ui/components/input';
 import { Label } from '@repo/ui/components/label';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@repo/ui/components/popover';
 import {
   Select,
   SelectContent,
@@ -19,10 +38,10 @@ import {
   TableHeader,
   TableRow,
 } from '@repo/ui/components/table';
-import { toast, Toaster } from 'sonner';
-import { authClient } from '@/clients/authClient';
+import { cn } from '@repo/ui/lib/utils';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
+import { format } from 'date-fns';
 import {
   Loader2,
   Plus,
@@ -31,28 +50,9 @@ import {
   UserCircle,
   Calendar as CalendarIcon,
 } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@repo/ui/components/dialog';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@repo/ui/components/card';
-import { Calendar } from '@repo/ui/components/calendar';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@repo/ui/components/popover';
-import { format } from 'date-fns';
-import { cn } from '@repo/ui/lib/utils';
-import { Badge } from '@repo/ui/components/badge';
+import { useState } from 'react';
+import { toast, Toaster } from 'sonner';
+import { authClient } from '@/clients/authClient';
 
 type User = {
   id: string;
@@ -83,7 +83,7 @@ export default function AdminDashboard() {
   const { data: users, isLoading: isUsersLoading } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const data: { users: User[] } = await authClient.admin.listUsers(
+      const data = await authClient.admin.listUsers(
         {
           query: {
             limit: 10,
@@ -423,7 +423,7 @@ export default function AdminDashboard() {
                             });
                             if (user.banned) {
                               setIsLoading(`ban-${user.id}`);
-                              await client.admin.unbanUser(
+                              await authClient.admin.unbanUser(
                                 {
                                   userId: user.id,
                                 },
