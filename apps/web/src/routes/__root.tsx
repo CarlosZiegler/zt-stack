@@ -2,6 +2,8 @@ import { Toaster } from '@repo/ui/components/sonner';
 import { Outlet, createRootRoute } from '@tanstack/react-router';
 import React from 'react';
 import { Navbar } from '@/routes/-components/layout/nav/navbar';
+import { UserProfile } from '@repo/features/user/user-profile';
+import { UserOrganization } from '@repo/features/user/user-organization';
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -20,6 +22,8 @@ function RootComponent() {
   return (
     <>
       <Navbar />
+      <UserProfile />
+      <UserOrganization />
       <Toaster
         toastOptions={{
           classNames: {

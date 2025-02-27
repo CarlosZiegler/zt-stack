@@ -22,6 +22,7 @@
     "@repo/auth": "workspace:*",
     "@repo/intl": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@repo/features": "workspace:*",
     "@tailwindcss/vite": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-query": "catalog:",
