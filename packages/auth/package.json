@@ -21,12 +21,12 @@
   },
   "prettier": "@repo/prettier-config",
   "dependencies": {
-    "@auth/drizzle-adapter": "catalog:",
     "@repo/db": "workspace:*",
     "@repo/email": "workspace:*",
     "better-auth": "catalog:"
   },
   "devDependencies": {
+    "rollup-plugin-visualizer": "5.14.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",

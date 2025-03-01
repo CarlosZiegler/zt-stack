@@ -55,6 +55,7 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react-swc": "catalog:",
     "eslint": "catalog:",
+    "rollup-plugin-visualizer": "5.14.0",
     "shx": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:"

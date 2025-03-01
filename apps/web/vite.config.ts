@@ -5,6 +5,7 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react-swc';
 import * as z from 'zod';
 import { defineConfig } from 'vite';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 /**
  * Fixes issue with "__dirname is not defined in ES module scope"
@@ -39,6 +40,7 @@ export default defineConfig({
     }),
     tailwindcss(),
     react(),
+    visualizer({ open: true, filename: 'bundle-visualization.html' }),
   ],
   envPrefix: 'PUBLIC_',
   server: {
@@ -46,6 +48,12 @@ export default defineConfig({
     port: WEB_PORT,
     strictPort: true,
   },
+  build: {
+    rollupOptions: {
+      treeshake: true,
+    },
+  },
+
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
