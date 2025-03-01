@@ -44,7 +44,7 @@ services:
       - db
 
   db:
-    image: docker.io/postgres:latest
+    image: pgvector/pgvector:pg17
     ports:
       - 5432:5432
     environment:
