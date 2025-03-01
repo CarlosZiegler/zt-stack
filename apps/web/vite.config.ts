@@ -27,6 +27,7 @@ const envSchema = z.object({
     (val) => (val === undefined ? 'http://localhost:3035' : val),
     z.string().url(),
   ),
+  PUBLIC_BASE_PATH: z.string().optional().default('/'),
 });
 const env = envSchema.parse(process.env);
 const webUrl = new URL(env.PUBLIC_WEB_URL);
@@ -42,6 +43,7 @@ export default defineConfig({
     react(),
     visualizer({ open: true, filename: 'bundle-visualization.html' }),
   ],
+  base: env.PUBLIC_BASE_PATH,
   envPrefix: 'PUBLIC_',
   server: {
     host: WEB_HOST,

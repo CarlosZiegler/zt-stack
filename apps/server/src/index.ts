@@ -10,6 +10,8 @@ import { WILD_CARD_PATH } from './lib/constants';
 import { env } from './lib/env';
 import { showRoutes } from 'hono/dev';
 
+const trustedOrigins = [env.PUBLIC_WEB_URL].map((url) => new URL(url).origin);
+
 const app = new Hono<{
   Variables: {
     user: typeof auth.$Infer.Session.user | null;
@@ -22,7 +24,7 @@ app.use(logger());
 app.use(
   WILD_CARD_PATH.BETTER_AUTH,
   cors({
-    origin: [env.PUBLIC_WEB_URL],
+    origin: trustedOrigins,
     credentials: true,
     allowHeaders: ['Content-Type', 'Authorization'],
     allowMethods: ['POST', 'GET', 'OPTIONS'],
@@ -34,7 +36,7 @@ app.use(
 app.use(
   WILD_CARD_PATH.TRPC,
   cors({
-    origin: [env.PUBLIC_WEB_URL],
+    origin: trustedOrigins,
     credentials: true,
   }),
 );

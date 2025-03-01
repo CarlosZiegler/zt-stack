@@ -36,7 +36,7 @@ export const createAuth = ({
 }: AuthOptions): AuthInstance => {
   return betterAuth({
     secret: authSecret,
-    trustedOrigins: [webUrl],
+    trustedOrigins: [webUrl].map((url) => new URL(url).origin),
     appUrl: 'my-app',
     session: {
       cookieCache: {

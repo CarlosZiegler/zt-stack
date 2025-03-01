@@ -6,6 +6,7 @@ import { queryClient } from '@/clients/queryClient';
 import { trpcClient } from '@/clients/trpcClient';
 import { routeTree } from '@/routeTree.gen';
 import Spinner from '@/routes/-components/layout/spinner';
+import { env } from './env';
 
 export const trpc = createTRPCOptionsProxy<AppRouter>({
   client: trpcClient,
@@ -15,6 +16,7 @@ export const trpc = createTRPCOptionsProxy<AppRouter>({
 export function createRouter() {
   const router = createTanstackRouter({
     routeTree,
+    basepath: env.PUBLIC_BASE_PATH,
     scrollRestoration: true,
     defaultPreload: 'intent',
     defaultPendingComponent: () => <Spinner />,
