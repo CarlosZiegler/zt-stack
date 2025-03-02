@@ -183,7 +183,19 @@ export default function UserCard(props: {
                         } else {
                           toast.success('Session terminated successfully');
                         }
-                        navigate({ to: '/settings' });
+                        if (session.id === props?.session?.session?.id) {
+                          await authClient.signOut({
+                            fetchOptions: {
+                              onSuccess() {
+                                setIsTerminating(undefined);
+                                // apply delay
+                                setTimeout(() => {
+                                  navigate({ to: '/' });
+                                }, 1000);
+                              },
+                            },
+                          });
+                        }
                         setIsTerminating(undefined);
                       }}
                     >

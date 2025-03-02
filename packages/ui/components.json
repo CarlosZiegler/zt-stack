@@ -7,11 +7,15 @@
     "config": "",
     "css": "../../tools/tailwind/style.css",
     "baseColor": "zinc",
-    "cssVariables": true
+    "cssVariables": true,
+    "prefix": ""
   },
   "aliases": {
-    "ui": "src/components",
+    "components": "#/components",
+    "ui": "#/components",
     "utils": "#/lib/utils",
-    "components": "#/components"
-  }
+    "lib": "#/lib",
+    "hooks": "#/hooks"
+  },
+  "iconLibrary": "lucide"
 }

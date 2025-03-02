@@ -20,12 +20,13 @@ import { Route as PublicRegisterImport } from './routes/_public/register'
 import { Route as PublicLoginImport } from './routes/_public/login'
 import { Route as PublicForgotPasswordImport } from './routes/_public/forgot-password'
 import { Route as PublicTwoFactorIndexImport } from './routes/_public/two-factor/index'
-import { Route as ProtectedSettingsIndexImport } from './routes/_protected/settings/index'
 import { Route as ProtectedPostsIndexImport } from './routes/_protected/posts/index'
 import { Route as ProtectedAdminIndexImport } from './routes/_protected/admin/index'
+import { Route as ProtectedAccountIndexImport } from './routes/_protected/account/index'
 import { Route as PublicTwoFactorOtpImport } from './routes/_public/two-factor/otp'
 import { Route as PublicAcceptInvitationInvitationIdIndexImport } from './routes/_public/accept-invitation/$invitationId/index'
 import { Route as ProtectedPostsPostidIndexImport } from './routes/_protected/posts/$postid/index'
+import { Route as ProtectedAdminOrganizationsIndexImport } from './routes/_protected/admin/organizations/index'
 
 // Create Virtual Routes
 
@@ -79,14 +80,6 @@ const PublicTwoFactorIndexRoute = PublicTwoFactorIndexImport.update({
   getParentRoute: () => PublicLayoutRoute,
 } as any)
 
-const ProtectedSettingsIndexRoute = ProtectedSettingsIndexImport.update({
-  id: '/settings/',
-  path: '/settings/',
-  getParentRoute: () => ProtectedLayoutRoute,
-} as any).lazy(() =>
-  import('./routes/_protected/settings/index.lazy').then((d) => d.Route),
-)
-
 const ProtectedPostsIndexRoute = ProtectedPostsIndexImport.update({
   id: '/posts/',
   path: '/posts/',
@@ -102,6 +95,12 @@ const ProtectedAdminIndexRoute = ProtectedAdminIndexImport.update({
 } as any).lazy(() =>
   import('./routes/_protected/admin/index.lazy').then((d) => d.Route),
 )
+
+const ProtectedAccountIndexRoute = ProtectedAccountIndexImport.update({
+  id: '/account/',
+  path: '/account/',
+  getParentRoute: () => ProtectedLayoutRoute,
+} as any)
 
 const PublicTwoFactorOtpRoute = PublicTwoFactorOtpImport.update({
   id: '/two-factor/otp',
@@ -123,6 +122,13 @@ const ProtectedPostsPostidIndexRoute = ProtectedPostsPostidIndexImport.update({
 } as any).lazy(() =>
   import('./routes/_protected/posts/$postid/index.lazy').then((d) => d.Route),
 )
+
+const ProtectedAdminOrganizationsIndexRoute =
+  ProtectedAdminOrganizationsIndexImport.update({
+    id: '/admin/organizations/',
+    path: '/admin/organizations/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -184,6 +190,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicTwoFactorOtpImport
       parentRoute: typeof PublicLayoutImport
     }
+    '/_protected/account/': {
+      id: '/_protected/account/'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof ProtectedAccountIndexImport
+      parentRoute: typeof ProtectedLayoutImport
+    }
     '/_protected/admin/': {
       id: '/_protected/admin/'
       path: '/admin'
@@ -198,19 +211,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedPostsIndexImport
       parentRoute: typeof ProtectedLayoutImport
     }
-    '/_protected/settings/': {
-      id: '/_protected/settings/'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof ProtectedSettingsIndexImport
-      parentRoute: typeof ProtectedLayoutImport
-    }
     '/_public/two-factor/': {
       id: '/_public/two-factor/'
       path: '/two-factor'
       fullPath: '/two-factor'
       preLoaderRoute: typeof PublicTwoFactorIndexImport
       parentRoute: typeof PublicLayoutImport
+    }
+    '/_protected/admin/organizations/': {
+      id: '/_protected/admin/organizations/'
+      path: '/admin/organizations'
+      fullPath: '/admin/organizations'
+      preLoaderRoute: typeof ProtectedAdminOrganizationsIndexImport
+      parentRoute: typeof ProtectedLayoutImport
     }
     '/_protected/posts/$postid/': {
       id: '/_protected/posts/$postid/'
@@ -232,16 +245,18 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface ProtectedLayoutRouteChildren {
+  ProtectedAccountIndexRoute: typeof ProtectedAccountIndexRoute
   ProtectedAdminIndexRoute: typeof ProtectedAdminIndexRoute
   ProtectedPostsIndexRoute: typeof ProtectedPostsIndexRoute
-  ProtectedSettingsIndexRoute: typeof ProtectedSettingsIndexRoute
+  ProtectedAdminOrganizationsIndexRoute: typeof ProtectedAdminOrganizationsIndexRoute
   ProtectedPostsPostidIndexRoute: typeof ProtectedPostsPostidIndexRoute
 }
 
 const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
+  ProtectedAccountIndexRoute: ProtectedAccountIndexRoute,
   ProtectedAdminIndexRoute: ProtectedAdminIndexRoute,
   ProtectedPostsIndexRoute: ProtectedPostsIndexRoute,
-  ProtectedSettingsIndexRoute: ProtectedSettingsIndexRoute,
+  ProtectedAdminOrganizationsIndexRoute: ProtectedAdminOrganizationsIndexRoute,
   ProtectedPostsPostidIndexRoute: ProtectedPostsPostidIndexRoute,
 }
 
@@ -282,10 +297,11 @@ export interface FileRoutesByFullPath {
   '/register': typeof PublicRegisterRoute
   '/reset-password': typeof PublicResetPasswordRoute
   '/two-factor/otp': typeof PublicTwoFactorOtpRoute
+  '/account': typeof ProtectedAccountIndexRoute
   '/admin': typeof ProtectedAdminIndexRoute
   '/posts': typeof ProtectedPostsIndexRoute
-  '/settings': typeof ProtectedSettingsIndexRoute
   '/two-factor': typeof PublicTwoFactorIndexRoute
+  '/admin/organizations': typeof ProtectedAdminOrganizationsIndexRoute
   '/posts/$postid': typeof ProtectedPostsPostidIndexRoute
   '/accept-invitation/$invitationId': typeof PublicAcceptInvitationInvitationIdIndexRoute
 }
@@ -298,10 +314,11 @@ export interface FileRoutesByTo {
   '/register': typeof PublicRegisterRoute
   '/reset-password': typeof PublicResetPasswordRoute
   '/two-factor/otp': typeof PublicTwoFactorOtpRoute
+  '/account': typeof ProtectedAccountIndexRoute
   '/admin': typeof ProtectedAdminIndexRoute
   '/posts': typeof ProtectedPostsIndexRoute
-  '/settings': typeof ProtectedSettingsIndexRoute
   '/two-factor': typeof PublicTwoFactorIndexRoute
+  '/admin/organizations': typeof ProtectedAdminOrganizationsIndexRoute
   '/posts/$postid': typeof ProtectedPostsPostidIndexRoute
   '/accept-invitation/$invitationId': typeof PublicAcceptInvitationInvitationIdIndexRoute
 }
@@ -316,10 +333,11 @@ export interface FileRoutesById {
   '/_public/register': typeof PublicRegisterRoute
   '/_public/reset-password': typeof PublicResetPasswordRoute
   '/_public/two-factor/otp': typeof PublicTwoFactorOtpRoute
+  '/_protected/account/': typeof ProtectedAccountIndexRoute
   '/_protected/admin/': typeof ProtectedAdminIndexRoute
   '/_protected/posts/': typeof ProtectedPostsIndexRoute
-  '/_protected/settings/': typeof ProtectedSettingsIndexRoute
   '/_public/two-factor/': typeof PublicTwoFactorIndexRoute
+  '/_protected/admin/organizations/': typeof ProtectedAdminOrganizationsIndexRoute
   '/_protected/posts/$postid/': typeof ProtectedPostsPostidIndexRoute
   '/_public/accept-invitation/$invitationId/': typeof PublicAcceptInvitationInvitationIdIndexRoute
 }
@@ -334,10 +352,11 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/two-factor/otp'
+    | '/account'
     | '/admin'
     | '/posts'
-    | '/settings'
     | '/two-factor'
+    | '/admin/organizations'
     | '/posts/$postid'
     | '/accept-invitation/$invitationId'
   fileRoutesByTo: FileRoutesByTo
@@ -349,10 +368,11 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/two-factor/otp'
+    | '/account'
     | '/admin'
     | '/posts'
-    | '/settings'
     | '/two-factor'
+    | '/admin/organizations'
     | '/posts/$postid'
     | '/accept-invitation/$invitationId'
   id:
@@ -365,10 +385,11 @@ export interface FileRouteTypes {
     | '/_public/register'
     | '/_public/reset-password'
     | '/_public/two-factor/otp'
+    | '/_protected/account/'
     | '/_protected/admin/'
     | '/_protected/posts/'
-    | '/_protected/settings/'
     | '/_public/two-factor/'
+    | '/_protected/admin/organizations/'
     | '/_protected/posts/$postid/'
     | '/_public/accept-invitation/$invitationId/'
   fileRoutesById: FileRoutesById
@@ -407,9 +428,10 @@ export const routeTree = rootRoute
     "/_protected": {
       "filePath": "_protected/layout.tsx",
       "children": [
+        "/_protected/account/",
         "/_protected/admin/",
         "/_protected/posts/",
-        "/_protected/settings/",
+        "/_protected/admin/organizations/",
         "/_protected/posts/$postid/"
       ]
     },
@@ -445,6 +467,10 @@ export const routeTree = rootRoute
       "filePath": "_public/two-factor/otp.tsx",
       "parent": "/_public"
     },
+    "/_protected/account/": {
+      "filePath": "_protected/account/index.tsx",
+      "parent": "/_protected"
+    },
     "/_protected/admin/": {
       "filePath": "_protected/admin/index.tsx",
       "parent": "/_protected"
@@ -453,13 +479,13 @@ export const routeTree = rootRoute
       "filePath": "_protected/posts/index.tsx",
       "parent": "/_protected"
     },
-    "/_protected/settings/": {
-      "filePath": "_protected/settings/index.tsx",
-      "parent": "/_protected"
-    },
     "/_public/two-factor/": {
       "filePath": "_public/two-factor/index.tsx",
       "parent": "/_public"
+    },
+    "/_protected/admin/organizations/": {
+      "filePath": "_protected/admin/organizations/index.tsx",
+      "parent": "/_protected"
     },
     "/_protected/posts/$postid/": {
       "filePath": "_protected/posts/$postid/index.tsx",

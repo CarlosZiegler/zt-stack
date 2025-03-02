@@ -19,7 +19,6 @@ export function createRouter() {
     basepath: env.PUBLIC_BASE_PATH,
     scrollRestoration: true,
     defaultPreload: 'intent',
-    defaultPendingComponent: () => <Spinner />,
     Wrap: function WrapComponent({ children }) {
       return (
         <QueryClientProvider client={queryClient}>

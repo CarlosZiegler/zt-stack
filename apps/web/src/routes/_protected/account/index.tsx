@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
+import SettingsDashboard from './-components/settings-dashboard';
 import { authClient } from '@/clients/authClient';
 
-export const Route = createFileRoute('/_protected/settings/')({
+export const Route = createFileRoute('/_protected/account/')({
+  component: RouteComponent,
   loader: async () => {
     // Change to trpc
     const [
@@ -27,3 +29,7 @@ export const Route = createFileRoute('/_protected/settings/')({
     };
   },
 });
+
+function RouteComponent() {
+  return <SettingsDashboard />;
+}
