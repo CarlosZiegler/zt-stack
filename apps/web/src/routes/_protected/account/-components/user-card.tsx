@@ -71,13 +71,11 @@ import { Globe } from 'lucide-react';
 import { Badge } from '@repo/ui/components/badge';
 
 export default function UserCard(props: {
-  session: AuthClient['$Infer']['Session'] | null;
   activeSessions: AuthClient['$Infer']['Session']['session'][];
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { data } = authClient.useSession();
-  const session = data || props.session;
+  const { data: session } = authClient.useSession();
   const [isTerminating, setIsTerminating] = useState<string>();
   const [isPendingTwoFa, setIsPendingTwoFa] = useState<boolean>(false);
   const [twoFaPassword, setTwoFaPassword] = useState<string>('');
@@ -156,26 +154,26 @@ export default function UserCard(props: {
 
         <div className="border-l-2 px-2 w-max gap-1 flex flex-col">
           <p className="text-xs font-medium ">{t('ACTIVE_SESSIONS')}</p>
-          {props.activeSessions
-            .filter((session) => session.userAgent)
-            .map((session) => {
+          {props?.activeSessions
+            ?.filter((item) => item.userAgent)
+            .map((item) => {
               return (
-                <div key={session.id}>
+                <div key={item.id}>
                   <div className="flex items-center gap-2 text-sm  text-black font-medium dark:text-white">
-                    {new UAParser(session.userAgent || '').getDevice().type ===
+                    {new UAParser(item.userAgent || '').getDevice().type ===
                     'mobile' ? (
                       <MobileIcon />
                     ) : (
                       <Laptop size={16} />
                     )}
-                    {new UAParser(session.userAgent || '').getOS().name},{' '}
-                    {new UAParser(session.userAgent || '').getBrowser().name}
+                    {new UAParser(item.userAgent || '').getOS().name},{' '}
+                    {new UAParser(item.userAgent || '').getBrowser().name}
                     <button
                       className="text-red-500 opacity-80  cursor-pointer text-xs border-muted-foreground border-red-600  underline "
                       onClick={async () => {
-                        setIsTerminating(session.id);
+                        setIsTerminating(item.id);
                         const res = await authClient.revokeSession({
-                          token: session.token,
+                          token: item.token,
                         });
 
                         if (res.error) {
@@ -183,7 +181,7 @@ export default function UserCard(props: {
                         } else {
                           toast.success('Session terminated successfully');
                         }
-                        if (session.id === props?.session?.session?.id) {
+                        if (item.id === session?.session?.id) {
                           await authClient.signOut({
                             fetchOptions: {
                               onSuccess() {
@@ -199,9 +197,9 @@ export default function UserCard(props: {
                         setIsTerminating(undefined);
                       }}
                     >
-                      {isTerminating === session.id ? (
+                      {isTerminating === item.id ? (
                         <Loader2 size={15} className="animate-spin" />
-                      ) : session.id === props.session?.session.id ? (
+                      ) : item.id === session?.session?.id ? (
                         t('SIGN_OUT')
                       ) : (
                         t('TERMINATE')

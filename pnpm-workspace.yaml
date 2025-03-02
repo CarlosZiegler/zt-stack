@@ -17,8 +17,8 @@ catalog:
   '@tanstack/react-form': ^1.0.0
   '@tanstack/react-query': 5.66.11
   '@tanstack/react-router': ^1.112.0
-  '@tanstack/router-devtools': ^1.112.0
-  '@tanstack/router-plugin': ^1.112.0
+  '@tanstack/router-devtools': ^1.112.5
+  '@tanstack/router-plugin': ^1.112.3
   '@trpc/client': 11.0.0-rc.819
   '@trpc/server': 11.0.0-rc.819
   '@trpc/tanstack-react-query': 11.0.0-rc.819
@@ -28,7 +28,7 @@ catalog:
   '@types/react': ^19.0.10
   '@types/react-dom': ^19.0.4
   '@vitejs/plugin-react-swc': ^3.8.0
-  better-auth: ^1.2.0
+  better-auth: ^1.2.1
   class-variance-authority: ^0.7.1
   dotenv-cli: ^8.0.0
   drizzle-kit: ^0.30.5

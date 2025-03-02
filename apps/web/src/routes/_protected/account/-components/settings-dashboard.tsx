@@ -1,20 +1,14 @@
-import { Route } from '../index';
-import AccountSwitcher from './account-switch';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { authGetListSessionsQueryOptions } from '../index';
 import UserCard from './user-card';
 
 export default function DashboardPage() {
-  const { activeSessions, session, deviceSessions } = Route.useLoaderData();
+  const activeSessions = useSuspenseQuery(authGetListSessionsQueryOptions);
 
   return (
     <div className="w-full p-4">
       <div className="flex gap-4 flex-col">
-        <AccountSwitcher
-          sessions={JSON.parse(JSON.stringify(deviceSessions.data))}
-        />
-        <UserCard
-          session={JSON.parse(JSON.stringify(session.data))}
-          activeSessions={JSON.parse(JSON.stringify(activeSessions.data))}
-        />
+        <UserCard activeSessions={activeSessions?.data} />
       </div>
     </div>
   );

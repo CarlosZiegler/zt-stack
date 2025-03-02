@@ -51,7 +51,10 @@ app.use(
   WILD_CARD_PATH.TRPC,
   trpcServer({
     router: api.trpcRouter,
-    createContext: (c) => api.createTRPCContext({ headers: c.req.headers }),
+    createContext: (c) =>
+      api.createTRPCContext({
+        headers: c.req.headers,
+      }),
   }),
 );
 

@@ -32,7 +32,7 @@
     "date-fns": "^4.1.0",
     "dotenv-cli": "catalog:",
     "framer-motion": "^12.4.7",
-    "lucide-react": "^0.476.0",
+    "lucide-react": "^0.477.0",
     "next-themes": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
