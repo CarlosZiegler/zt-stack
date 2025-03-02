@@ -9,6 +9,8 @@ import {
   multiSessionClient,
 } from 'better-auth/client/plugins';
 import { createAuthClient as createBetterAuthClient } from 'better-auth/react';
+// import { stripeClient } from '@better-auth/stripe/client';
+// import { apiKeyClient } from 'better-auth/client/plugins';
 export interface AuthClientOptions {
   apiBaseUrl: string;
 }
@@ -23,8 +25,16 @@ export const createAuthClient = ({ apiBaseUrl }: AuthClientOptions) =>
       anonymousClient(),
       passkeyClient(),
       adminClient(),
-      organizationClient(),
+      organizationClient({
+        teams: {
+          enabled: true,
+        },
+      }),
       multiSessionClient(),
+      // stripeClient({
+      //   subscription: true, //if you want to enable subscription management
+      // }),
+      // apiKeyClient(),
     ],
   });
 

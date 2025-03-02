@@ -16,6 +16,7 @@ export const user = pgTable('user', {
   updatedAt: timestamp('updated_at').notNull(),
   twoFactorEnabled: boolean('two_factor_enabled'),
   username: text('username').unique(),
+  displayUsername: text('display_username'),
   isAnonymous: boolean('is_anonymous'),
   role: text('role'),
   banned: boolean('banned'),
@@ -107,6 +108,7 @@ export const member = pgTable('member', {
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
   role: text('role').notNull(),
+  teamId: text('team_id'),
   createdAt: timestamp('created_at').notNull(),
 });
 
@@ -117,6 +119,7 @@ export const invitation = pgTable('invitation', {
     .references(() => organization.id, { onDelete: 'cascade' }),
   email: text('email').notNull(),
   role: text('role'),
+  teamId: text('team_id'),
   status: text('status').notNull(),
   expiresAt: timestamp('expires_at').notNull(),
   inviterId: text('inviter_id')

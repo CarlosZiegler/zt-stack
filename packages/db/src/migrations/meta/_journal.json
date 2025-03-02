@@ -15,6 +15,13 @@
       "when": 1740239406893,
       "tag": "0001_flaky_quentin_quire",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1740900572405,
+      "tag": "0002_thick_morlocks",
+      "breakpoints": true
     }
   ]
 }

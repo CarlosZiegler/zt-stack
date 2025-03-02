@@ -17,7 +17,7 @@ export const envSchema = z.object({
   SERVER_HOST: z.string().min(1).default(DEFAULT_SERVER_HOST),
   SERVER_AUTH_SECRET: z.string().min(1),
   SERVER_POSTGRES_URL: z.string(),
-
+  SENTRY_DSN: z.string().url().optional(),
   // Frontend URL, used to configure trusted origin (CORS)
   PUBLIC_WEB_URL: z.string().url(),
 });

@@ -9,6 +9,7 @@ import { auth } from './lib/auth';
 import { WILD_CARD_PATH } from './lib/constants';
 import { env } from './lib/env';
 import { showRoutes } from 'hono/dev';
+import { initSentry } from './lib/sentry';
 
 const trustedOrigins = [env.PUBLIC_WEB_URL].map((url) => new URL(url).origin);
 
@@ -20,6 +21,7 @@ const app = new Hono<{
 }>();
 
 app.use(logger());
+app.use('*', initSentry({ enabled: false }));
 
 app.use(
   WILD_CARD_PATH.BETTER_AUTH,
@@ -55,6 +57,15 @@ app.use(
 
 app.get('/healthcheck', (c) => {
   return c.text('OK');
+});
+
+app.onError((e, c) => {
+  const sentry = c.get('sentry');
+  if (sentry) {
+    sentry.captureException(e);
+  }
+  // TODO: Check if this is the best way to handle errors
+  return c.json({ error: e.message }, 500);
 });
 
 const server = serve(

@@ -21,17 +21,20 @@
   },
   "prettier": "@repo/prettier-config",
   "dependencies": {
+    "@better-auth/stripe": "^1.2.0",
     "@repo/db": "workspace:*",
     "@repo/email": "workspace:*",
-    "better-auth": "catalog:"
+    "better-auth": "catalog:",
+    "stripe": "^17.7.0",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "rollup-plugin-visualizer": "5.14.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "eslint": "catalog:",
+    "rollup-plugin-visualizer": "5.14.0",
     "typescript": "catalog:"
   }
 }
