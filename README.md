@@ -10,6 +10,38 @@ deployments and 100% type-safety.
 
 This project is heavily inspired by [RT Stack](https://github.com/nktnet1/rt-stack) and shares many of its principles and architecture. However, it includes some modifications and enhancements tailored to my preferences and use cases.
 
+### Screenshots
+
+### Landing page
+
+<img width="1599" alt="image" src="https://github.com/user-attachments/assets/220d3911-e855-4cbe-9995-f8f3f9dc6457" />
+
+### Login
+
+<img width="1624" alt="image" src="https://github.com/user-attachments/assets/335fc050-175a-4081-bfc6-30dabf3a3ebb" />
+
+### Signup
+
+<img width="1625" alt="image" src="https://github.com/user-attachments/assets/cfa3c724-1398-4308-84cc-b6822667092a" />
+
+### Dashboard - User List
+
+<img width="1593" alt="image" src="https://github.com/user-attachments/assets/5101a02c-e9f1-4a0e-9383-50d492fcb1ee" />
+
+### Dashboard - Organizations
+
+<img width="1593" alt="image" src="https://github.com/user-attachments/assets/19cbc40c-e035-496f-adbd-9d7003c20afd" />
+
+### Dashboard - Posts ( tRPC example )
+
+<img width="1593" alt="image" src="https://github.com/user-attachments/assets/51dc8df4-bff4-4792-bb0e-f1245e709023" />
+
+### Account
+
+<img width="1593" alt="image" src="https://github.com/user-attachments/assets/f6e0d539-aa1a-42a6-b582-4f0d9313113f" />
+
+
+
 ### Stack overview
 
 Below is an overview of all the components in the stack:
