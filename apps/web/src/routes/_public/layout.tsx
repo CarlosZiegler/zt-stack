@@ -14,8 +14,12 @@ function Layout() {
   }
 
   if (!session?.user) {
-    return <Outlet />;
+    return (
+      <div className="flex-1">
+        <Outlet />
+      </div>
+    );
   }
 
-  return <Navigate to="/" />;
+  return <Navigate to="/account" />;
 }

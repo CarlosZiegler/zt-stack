@@ -3,7 +3,6 @@ packages:
   - packages/*
   - tools/*
 catalog:
-  '@auth/drizzle-adapter': ^1.7.4
   '@eslint/js': ^9.21.0
   '@hono/node-server': ^1.13.8
   '@hono/trpc-server': ^0.3.4
@@ -14,34 +13,34 @@ catalog:
   '@radix-ui/react-label': ^2.1.2
   '@radix-ui/react-slot': ^1.1.2
   '@radix-ui/react-toast': ^1.2.6
-  '@tailwindcss/vite': 4.0.8
-  '@tanstack/react-form': ^0.45.1
-  '@tanstack/react-query': 5.66.9
-  '@tanstack/react-router': ^1.111.7
-  '@tanstack/router-devtools': ^1.111.7
-  '@tanstack/router-plugin': ^1.111.7
-  '@trpc/client': 11.0.0-rc.808
-  '@trpc/server': 11.0.0-rc.808
-  '@trpc/tanstack-react-query': 11.0.0-rc.808
+  '@tailwindcss/vite': 4.0.7
+  '@tanstack/react-form': ^1.0.0
+  '@tanstack/react-query': 5.66.11
+  '@tanstack/react-router': ^1.112.0
+  '@tanstack/router-devtools': ^1.112.5
+  '@tanstack/router-plugin': ^1.112.3
+  '@trpc/client': 11.0.0-rc.819
+  '@trpc/server': 11.0.0-rc.819
+  '@trpc/tanstack-react-query': 11.0.0-rc.819
   '@types/eslint-config-prettier': ^6.11.3
-  '@types/node': ^22.13.5
+  '@types/node': ^22.13.8
   '@types/pg': ^8.11.11
   '@types/react': ^19.0.10
   '@types/react-dom': ^19.0.4
   '@vitejs/plugin-react-swc': ^3.8.0
-  better-auth: ^1.2.0-beta.16
+  better-auth: ^1.2.1
   class-variance-authority: ^0.7.1
   dotenv-cli: ^8.0.0
-  drizzle-kit: ^0.30.4
-  drizzle-orm: ^0.39.3
+  drizzle-kit: ^0.30.5
+  drizzle-orm: ^0.40.0
   drizzle-zod: ^0.7.0
   eslint: ^9.21.0
-  eslint-config-prettier: ^10.0.1
+  eslint-config-prettier: ^10.0.2
   eslint-plugin-import: ^2.31.0
   eslint-plugin-only-warn: ^1.1.0
   eslint-plugin-react: ^7.37.4
-  eslint-plugin-react-hooks: ^5.1.0
-  eslint-plugin-turbo: ^2.4.3
+  eslint-plugin-react-hooks: ^5.2.0
+  eslint-plugin-turbo: ^2.4.4
   globals: ^16.0.0
   hono: ^4.7.2
   next-themes: ^0.4.4
@@ -53,11 +52,11 @@ catalog:
   sonner: ^2.0.1
   superjson: ^2.2.2
   tailwind-merge: ^3.0.2
-  tailwindcss: ^4.0.8
+  tailwindcss: ^4.0.7
   tailwindcss-animate: ^1.0.7
   tsx: ^4.19.3
-  turbo: ^2.4.3
-  typescript: ^5.7.3
+  turbo: ^2.4.4
+  typescript: ^5.8.2
   typescript-eslint: ^8.25.0
   url-join: ^5.0.0
   zod: ^3.24.2

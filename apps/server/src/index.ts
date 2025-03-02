@@ -9,6 +9,9 @@ import { auth } from './lib/auth';
 import { WILD_CARD_PATH } from './lib/constants';
 import { env } from './lib/env';
 import { showRoutes } from 'hono/dev';
+import { initSentry } from './lib/sentry';
+
+const trustedOrigins = [env.PUBLIC_WEB_URL].map((url) => new URL(url).origin);
 
 const app = new Hono<{
   Variables: {
@@ -18,11 +21,12 @@ const app = new Hono<{
 }>();
 
 app.use(logger());
+app.use('*', initSentry({ enabled: false }));
 
 app.use(
   WILD_CARD_PATH.BETTER_AUTH,
   cors({
-    origin: [env.PUBLIC_WEB_URL],
+    origin: trustedOrigins,
     credentials: true,
     allowHeaders: ['Content-Type', 'Authorization'],
     allowMethods: ['POST', 'GET', 'OPTIONS'],
@@ -34,7 +38,7 @@ app.use(
 app.use(
   WILD_CARD_PATH.TRPC,
   cors({
-    origin: [env.PUBLIC_WEB_URL],
+    origin: trustedOrigins,
     credentials: true,
   }),
 );
@@ -47,12 +51,24 @@ app.use(
   WILD_CARD_PATH.TRPC,
   trpcServer({
     router: api.trpcRouter,
-    createContext: (c) => api.createTRPCContext({ headers: c.req.headers }),
+    createContext: (c) =>
+      api.createTRPCContext({
+        headers: c.req.headers,
+      }),
   }),
 );
 
 app.get('/healthcheck', (c) => {
   return c.text('OK');
+});
+
+app.onError((e, c) => {
+  const sentry = c.get('sentry');
+  if (sentry) {
+    sentry.captureException(e);
+  }
+  // TODO: Check if this is the best way to handle errors
+  return c.json({ error: e.message }, 500);
 });
 
 const server = serve(

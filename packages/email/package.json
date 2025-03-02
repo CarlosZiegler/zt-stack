@@ -10,7 +10,7 @@
   "exports": {
     "./lib/*": {
       "types": "./dist/src/lib/*.d.ts",
-      "default": "./src/lib/*.js"
+      "default": "./src/lib/*.ts"
     },
     "./templates/*": {
       "types": "./dist/src/templates/*.d.ts",

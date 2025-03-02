@@ -14,6 +14,7 @@ export const createTRPCContext = async ({
 }): Promise<{
   db: DatabaseInstance;
   session: AuthInstance['$Infer']['Session'] | null;
+  auth: AuthInstance;
 }> => {
   const session = await auth.api.getSession({
     headers,
@@ -21,6 +22,7 @@ export const createTRPCContext = async ({
   return {
     db,
     session,
+    auth,
   };
 };
 

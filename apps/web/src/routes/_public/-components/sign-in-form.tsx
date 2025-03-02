@@ -87,7 +87,15 @@ export default function SignInForm() {
             className="w-full"
             disabled={loading}
             onClick={async () => {
-              await authClient.signIn.email({ email, password });
+              await authClient.signIn.email(
+                { email, password },
+                {
+                  onSuccess: () => {
+                    setLoading(false);
+                    window.location.href = '/account';
+                  },
+                },
+              );
             }}
           >
             {loading ? (
@@ -102,16 +110,11 @@ export default function SignInForm() {
             className="gap-2"
             onClick={async () => {
               setLoading(true);
-              const res = await authClient.signIn.passkey({
+              await authClient.signIn.passkey({
                 fetchOptions: {
                   onSuccess: () => {
-                    // navigate({
-                    //   to: '/admin',
-                    // });
-                    setTimeout(() => {
-                      setLoading(false);
-                      window.location.href = '/admin';
-                    }, 1000);
+                    setLoading(false);
+                    window.location.href = '/account';
                   },
                   onError: () => {
                     setLoading(false);

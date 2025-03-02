@@ -17,6 +17,13 @@ import {
 } from 'better-auth/plugins';
 import { passkey } from 'better-auth/plugins/passkey';
 import type { DatabaseInstance } from '@repo/db/client';
+import { env } from './env';
+// import { captcha } from 'better-auth/plugins';
+// import { stripe } from '@better-auth/stripe';
+// import Stripe from 'stripe';
+// import { apiKey } from 'better-auth/plugins';
+
+// const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export interface AuthOptions {
   webUrl: string;
@@ -26,8 +33,8 @@ export interface AuthOptions {
 
 export type AuthInstance = ReturnType<typeof betterAuth>;
 
-const from = process.env.BETTER_AUTH_EMAIL || 'delivered@resend.dev';
-const to = process.env.TEST_EMAIL || '';
+const from = env.BETTER_AUTH_EMAIL;
+const devEmail = env.TEST_EMAIL;
 
 export const createAuth = ({
   webUrl,
@@ -36,7 +43,7 @@ export const createAuth = ({
 }: AuthOptions): AuthInstance => {
   return betterAuth({
     secret: authSecret,
-    trustedOrigins: [webUrl],
+    trustedOrigins: [webUrl].map((url) => new URL(url).origin),
     appUrl: 'my-app',
     session: {
       cookieCache: {
@@ -57,7 +64,7 @@ export const createAuth = ({
       async sendVerificationEmail({ user, url }) {
         const res = await emailClient.emails.send({
           from,
-          to: to || user.email,
+          to: devEmail || user.email,
           subject: 'Verify your email address',
           html: `<a href="${url}">Verify your email address</a>`,
         });
@@ -128,6 +135,16 @@ export const createAuth = ({
       bearer(),
       multiSession(),
       oneTap(),
+      // captcha({
+      //   provider: 'cloudflare-turnstile', // or "google-recaptcha" //
+      //   secretKey: process.env.TURNSTILE_SECRET_KEY!,
+      // }),
+      // stripe({
+      //   stripeClient,
+      //   stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+      //   createCustomerOnSignUp: true,
+      // }),
+      // apiKey(),
     ],
   });
 };

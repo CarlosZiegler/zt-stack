@@ -30,7 +30,9 @@ packages
   ├─ db
   |   └─ drizzle orm (postgresql database)
   ├─ email
-  |   └─ resend client to send email
+  |   └─ resend client to send email + react-email
+  ├─ intl
+  |   └─ internationalization with i18n + i18next
   ├─ ui
   |   ├─ tailwindcss
   |   └─ shadcn & radix ui

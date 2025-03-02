@@ -1,7 +1,12 @@
 import { Toaster } from '@repo/ui/components/sonner';
 import { Outlet, createRootRoute } from '@tanstack/react-router';
 import React from 'react';
-import { Navbar } from '@/routes/-components/layout/nav/navbar';
+import { ThemeProvider } from 'next-themes';
+import { MainNavbar } from './-components/layout/main-navbar';
+import { authClient } from '@/clients/authClient';
+import { Button } from '@repo/ui/components/button';
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
+import { useTheme } from 'next-themes';
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -17,27 +22,43 @@ const TanStackRouterDevtools = import.meta.env.PROD
     );
 
 function RootComponent() {
+  const { data: session } = authClient.useSession();
+  const { resolvedTheme, setTheme } = useTheme();
+
   return (
-    <>
-      <Navbar />
-      <Toaster
-        toastOptions={{
-          classNames: {
-            // !important to override: https://github.com/shadcn-ui/ui/issues/3579
-            error: '!border-none !bg-toast-error !text-foreground',
-            info: '!border-none !bg-toast-info !text-foreground',
-            loading: '!border-none !bg-toast-loading !text-foreground',
-            success: '!border-none !bg-toast-success !text-foreground',
-            warning: '!border-none !bg-toast-warning !text-foreground',
-          },
-        }}
-      />
-      <div className="p-2 md:p-4">
-        <Outlet />
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <div className="min-h-screen flex flex-col">
+        <MainNavbar />
+
+        {/* Theme toggle for logged-in users */}
+        {session?.user && (
+          <div className="absolute top-4 right-4 z-50">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() =>
+                setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+              }
+              className="rounded-full"
+              aria-label="Toggle theme"
+            >
+              {resolvedTheme === 'dark' ? (
+                <MoonIcon className="h-5 w-5 text-yellow-300" />
+              ) : (
+                <SunIcon className="h-5 w-5 text-amber-500" />
+              )}
+            </Button>
+          </div>
+        )}
+
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Toaster />
       </div>
       <React.Suspense>
         <TanStackRouterDevtools position="bottom-right" />
       </React.Suspense>
-    </>
+    </ThemeProvider>
   );
 }
