@@ -22,6 +22,13 @@
       "when": 1740900572405,
       "tag": "0002_thick_morlocks",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1740983563661,
+      "tag": "0003_aberrant_zombie",
+      "breakpoints": true
     }
   ]
 }

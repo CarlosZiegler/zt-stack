@@ -105,6 +105,9 @@ export const createAuth = ({
       passkey(),
       admin(),
       organization({
+        teams: {
+          enabled: true,
+        },
         async sendInvitationEmail(data) {
           await emailClient.emails.send({
             from,
