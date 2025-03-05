@@ -1,12 +1,19 @@
-import { scan } from 'react-scan';
 import './style.css';
+
+import { scan } from 'react-scan';
+
 import React from 'react';
+
 import ReactDOM from 'react-dom/client';
-import { createRouter } from '@/router';
+
+import { RouterProvider } from '@tanstack/react-router';
+
+import { ThemeProvider } from 'next-themes';
+
 import { initI18n } from '@repo/intl/i18n';
 import { Toaster } from '@repo/ui/components/sonner';
-import { RouterProvider } from '@tanstack/react-router';
-import { ThemeProvider } from 'next-themes';
+
+import { createRouter } from '@/router';
 
 scan({
   enabled: true,
@@ -26,8 +33,8 @@ if (!rootElement.innerHTML) {
   root.render(
     <React.StrictMode>
       <ThemeProvider
-        attribute="class"
-        defaultTheme="light"
+        attribute='class'
+        defaultTheme='light'
         themes={['light', 'dark']}
         disableTransitionOnChange
       >
@@ -45,6 +52,6 @@ if (!rootElement.innerHTML) {
           }}
         />
       </ThemeProvider>
-    </React.StrictMode>,
+    </React.StrictMode>
   );
 }

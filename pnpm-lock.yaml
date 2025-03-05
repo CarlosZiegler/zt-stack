@@ -1000,6 +1000,9 @@ importers:
 
   tools/prettier:
     dependencies:
+      '@trivago/prettier-plugin-sort-imports':
+        specifier: ^5.2.2
+        version: 5.2.2(prettier@3.5.3)
       prettier:
         specifier: 'catalog:'
         version: 3.5.3
