@@ -1,3 +1,5 @@
+import { authClient } from '@/clients/authClient';
+import { postsLinkOptions } from '@/validations/posts-link-options';
 import { Button } from '@repo/ui/components/button';
 import {
   Card,
@@ -7,8 +9,6 @@ import {
   CardTitle,
 } from '@repo/ui/components/card';
 import { createLazyFileRoute, Link } from '@tanstack/react-router';
-import { authClient } from '@/clients/authClient';
-import { postsLinkOptions } from '@/validations/posts-link-options';
 import { ArrowRight, Building2, Lock, Users } from 'lucide-react';
 
 export const Route = createLazyFileRoute('/')({

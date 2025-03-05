@@ -1,8 +1,8 @@
+import { postsLinkOptions } from '@/validations/posts-link-options';
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
+import { useTranslation } from '@repo/intl/react';
 import { Button } from '@repo/ui/components/button';
 import { createLazyFileRoute, Link } from '@tanstack/react-router';
-import { postsLinkOptions } from '@/validations/posts-link-options';
-import { useTranslation } from '@repo/intl/react';
 
 export const Route = createLazyFileRoute('/_protected/posts/$postid/')({
   component: RouteComponent,

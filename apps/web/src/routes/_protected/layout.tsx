@@ -1,4 +1,3 @@
-import { Navigate, Outlet, createFileRoute } from '@tanstack/react-router';
 import { authClient } from '@/clients/authClient';
 import Spinner from '@/routes/-components/layout/spinner';
 import {
@@ -6,6 +5,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@repo/ui/components/sidebar';
+import { Navigate, Outlet, createFileRoute } from '@tanstack/react-router';
 import { AppSidebar } from '../-components/layout/app-sidebar';
 
 export const Route = createFileRoute('/_protected')({

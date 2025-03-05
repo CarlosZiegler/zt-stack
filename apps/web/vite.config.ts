@@ -38,11 +38,15 @@ export default defineConfig({
   plugins: [
     TanStackRouterVite({
       routeToken: 'layout',
+      autoCodeSplitting: true,
     }),
     tailwindcss(),
     react(),
     visualizer({ open: true, filename: 'bundle-visualization.html' }),
   ],
+  optimizeDeps: {
+    force: true,
+  },
   base: env.PUBLIC_BASE_PATH,
   envPrefix: 'PUBLIC_',
   server: {
