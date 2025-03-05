@@ -88,8 +88,8 @@ You are a Senior Full-Stack Developer and Expert in modern web development. You 
 ```tsx
 // Example component structure
 import { type FC } from 'react';
-import { Button } from '@repo/ui/components/button';
 import { useQuery } from '@tanstack/react-query';
+import { Button } from '@repo/ui/components/button';
 import { api } from '@/utils/api';
 import { cn } from '@/utils/cn';
 

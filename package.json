@@ -29,6 +29,7 @@
   },
   "prettier": "@repo/prettier-config",
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@repo/prettier-config": "workspace:*",
     "prettier": "catalog:",
     "turbo": "catalog:"

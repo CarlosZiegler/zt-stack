@@ -8,7 +8,7 @@ import { Toaster } from '@repo/ui/components/sonner';
 import { RouterProvider } from '@tanstack/react-router';
 import { ThemeProvider } from 'next-themes';
 
- scan({
+scan({
   enabled: true,
 });
 
@@ -19,7 +19,7 @@ initI18n({
 
 const rootElement = document.getElementById('app')!;
 
-  const router = createRouter();
+const router = createRouter();
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);

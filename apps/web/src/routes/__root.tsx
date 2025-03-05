@@ -1,14 +1,15 @@
-import { authClient } from '@/clients/authClient';
-import { queryClient } from '@/clients/queryClient';
-import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
-import { Button } from '@repo/ui/components/button';
 import { Toaster } from '@repo/ui/components/sonner';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools as ReactQueryDevtoolsBase } from '@tanstack/react-query-devtools';
 import { Outlet, createRootRoute } from '@tanstack/react-router';
-import { ThemeProvider, useTheme } from 'next-themes';
 import React from 'react';
 import { MainNavbar } from './-components/layout/main-navbar';
+import { authClient } from '@/clients/authClient';
+import { Button } from '@repo/ui/components/button';
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
+import { ThemeProvider } from 'next-themes';
+import { useTheme } from 'next-themes';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '@/clients/queryClient';
+import { ReactQueryDevtools as ReactQueryDevtoolsBase } from '@tanstack/react-query-devtools';
 
 export const Route = createRootRoute({
   component: RootComponent,
