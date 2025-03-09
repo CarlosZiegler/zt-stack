@@ -84,9 +84,7 @@ const ProtectedPostsIndexRoute = ProtectedPostsIndexImport.update({
   id: '/posts/',
   path: '/posts/',
   getParentRoute: () => ProtectedLayoutRoute,
-} as any).lazy(() =>
-  import('./routes/_protected/posts/index.lazy').then((d) => d.Route),
-)
+} as any)
 
 const ProtectedAdminIndexRoute = ProtectedAdminIndexImport.update({
   id: '/admin/',
@@ -119,9 +117,7 @@ const ProtectedPostsPostidIndexRoute = ProtectedPostsPostidIndexImport.update({
   id: '/posts/$postid/',
   path: '/posts/$postid/',
   getParentRoute: () => ProtectedLayoutRoute,
-} as any).lazy(() =>
-  import('./routes/_protected/posts/$postid/index.lazy').then((d) => d.Route),
-)
+} as any)
 
 const ProtectedAdminOrganizationsIndexRoute =
   ProtectedAdminOrganizationsIndexImport.update({
