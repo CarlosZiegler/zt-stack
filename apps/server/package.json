@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm with-env tsx watch src/index.ts",
+    "start": "pnpm with-env node dist/index.js",
     "build": "tsup",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
