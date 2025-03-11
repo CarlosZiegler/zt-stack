@@ -40,8 +40,6 @@ This project is heavily inspired by [RT Stack](https://github.com/nktnet1/rt-sta
 
 <img width="1593" alt="image" src="https://github.com/user-attachments/assets/f6e0d539-aa1a-42a6-b582-4f0d9313113f" />
 
-
-
 ### Stack overview
 
 Below is an overview of all the components in the stack:
@@ -93,7 +91,7 @@ there is a preference for:
 
 - [tanstack router](https://tanstack.com/router/latest) (web) + [hono](https://hono.dev) (server) instead of [nextjs](https://nextjs.org) (fullstack)
 - [better auth](https://www.better-auth.com) for authentication instead [auth.js (next auth)](https://authjs.dev)
-- [zod](https://zod.dev) for input validation instead of [zod](https://zod.dev)
+- [zod](https://zod.dev) for input validation
 - [tanstack form](https://tanstack.com/form/latest) instead of [react-hook-form](https://react-hook-form.com)
 - using `.env` in each application/package instead of globally, as per [turborepo's recommendations](https://turbo.build/repo/docs/crafting-your-repository/using-environment-variables#best-practices)
 
@@ -195,7 +193,7 @@ To install a single Shadcn/UI component, e.g. `button`, use the command
 pnpm ui-add button
 ```
 
-You can also open an intera
+You can also open an interactive cli [shadcn/ui](https://ui.shadcn.com/docs/cli)
 
 ```bash
 pnpm ui-add
